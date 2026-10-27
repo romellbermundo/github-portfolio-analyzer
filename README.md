@@ -21,6 +21,11 @@ Uses the unauthenticated GitHub REST API and analyzes **up to 100 public reposit
 Serve this directory using a static server or open `index.html` in a browser. Internet access is required for GitHub API calls.
 
 ## Version history
+### v3.1.0 — Visible assessment and priorities
+- Made Portfolio assessment the first results panel, ahead of the profile.
+- Added an explicit top-five repository improvement priority list with direct links.
+- Clarified assessment-complete status and renamed the header to Portfolio Analyzer.
+
 ### v3.0.0 — Portfolio Analyzer (October 2026)
 - Repurposed the original GitHub Finder into a public portfolio presentation analyzer.
 - Added repository inventory, metadata-based insights, prioritized review, and honest limitations.
