@@ -32,7 +32,7 @@ function summary(repos,user){
  const langs=new Map();
  for(const r of own){if(r.language)langs.set(r.language,(langs.get(r.language)||0)+1);}
  const sorted=[...langs].sort((a,b)=>b[1]-a[1]);
- const card=el('section','card');
+ const card=el('section','card assessment-panel');
  card.append(el('p','eyebrow','YOUR PORTFOLIO ASSESSMENT'),el('h2','','Portfolio assessment'));
  const metrics=el('div','analysis-summary');
  for(const [label,value] of [['Repositories reviewed',repos.length],['Active in past year',own.length-stale.length],['Need descriptions',missing.length],['Languages',langs.size]]){
@@ -65,7 +65,7 @@ function summary(repos,user){
  return card;
 }
 function publicProfileDetails(user){
- const card=el('section','card');
+ const card=el('section','card public-details-panel');
  card.append(el('h2','','Public profile details'));
  const facts=el('div','profile-facts');
  const entries=[['GitHub member since',user.created_at?fmt(user.created_at):null],['Location',user.location],['Company',user.company],['Public name',user.name],['Public email',user.email],['Public blog / website',user.blog]];
@@ -88,7 +88,7 @@ function publicProfileDetails(user){
  return card;
 }
 function intelligence(user,repos){
- const card=el('section','card intelligence');
+ const card=el('section','card intelligence dashboard-panel');
  card.append(el('p','eyebrow','PUBLIC DEVELOPER INTELLIGENCE'),el('h2','','Developer at a glance'));
  const own=repos.filter(r=>!r.fork);
  const stars=own.reduce((n,r)=>n+(r.stargazers_count||0),0);
@@ -150,7 +150,7 @@ function renderRepos(){
 function render(user,repos){
  output.replaceChildren();output.hidden=false;repositories=repos;visibleCount=8;
  output.append(profile(user),intelligence(user,repos),publicProfileDetails(user),summary(repos,user));
- const section=el('section','card');const head=el('div','section-heading');head.append(el('h2','','Repository review'));
+ const section=el('section','card repository-panel');const head=el('div','section-heading');head.append(el('h2','','Repository review'));
  const controls=el('div','repo-controls');
  const filter=el('input');filter.id='repoFilter';filter.type='search';filter.placeholder='Filter repositories';filter.setAttribute('aria-label','Filter repositories');
  const sort=el('select');sort.id='repoSort';sort.setAttribute('aria-label','Sort repositories');
