@@ -64,6 +64,29 @@ function summary(repos,user){
  if(user.public_repos>repos.length)card.append(el('p','explanation','GitHub reports '+user.public_repos+' public repositories; this review covers only '+repos.length+'. Findings are incomplete.'));
  return card;
 }
+function publicProfileDetails(user){
+ const card=el('section','card');
+ card.append(el('h2','','Public profile details'));
+ const facts=el('div','profile-facts');
+ const entries=[['GitHub member since',user.created_at?fmt(user.created_at):null],['Location',user.location],['Company',user.company],['Public name',user.name],['Public email',user.email],['Public blog / website',user.blog]];
+ for(const [label,value] of entries){
+  if(!value)continue;
+  const row=el('div','profile-fact');row.append(el('span','',label));
+  if(label==='Public blog / website'){
+   try{const url=new URL(/^https?:\/\//i.test(value)?value:'https://'+value);if(['http:','https:'].includes(url.protocol))row.append(link(url.hostname,url.href));else row.append(el('strong','',value));}
+   catch(_){row.append(el('strong','',value));}
+  }else row.append(el('strong','',value));
+  facts.append(row);
+ }
+ if(!facts.children.length)facts.append(el('p','explanation','This account has not provided additional public profile details.'));
+ card.append(facts);
+ const social=Array.isArray(user.social_accounts)?user.social_accounts:[];
+ const linkedin=social.find(s=>s.provider==='linkedin'&&/^https:\/\/(www\.)?linkedin\.com\//i.test(s.url||''));
+ card.append(el('h3','','Professional links'));
+ if(linkedin)card.append(link('LinkedIn profile ↗',linkedin.url,'primary-link'));
+ else card.append(el('p','explanation','No LinkedIn profile is explicitly linked through GitHub’s public social accounts. No automated LinkedIn scraping or identity matching is performed.'));
+ return card;
+}
 function intelligence(user,repos){
  const card=el('section','card intelligence');
  card.append(el('p','eyebrow','PUBLIC DEVELOPER INTELLIGENCE'),el('h2','','Developer at a glance'));
@@ -71,7 +94,7 @@ function intelligence(user,repos){
  const stars=own.reduce((n,r)=>n+(r.stargazers_count||0),0);
  const forks=own.reduce((n,r)=>n+(r.forks_count||0),0);
  const metrics=el('div','analysis-summary');
- for(const [label,value] of [['Public repositories',user.public_repos],['Followers',user.followers],['Stars on original repos',stars],['Forks of original repos',forks],['Following',user.following],['Archived repositories',repos.filter(r=>r.archived).length],['Original repositories reviewed',own.length],['Recently pushed (90 days)',own.filter(r=>daysSince(r.pushed_at)<=90).length]]){
+ for(const [label,value] of [['Public repositories',user.public_repos],['Followers',user.followers],['Stars on original repos',stars],['Forks of original repos',forks],['Following',user.following],['Public gists',user.public_gists],['GitHub account age (years)',user.created_at?Math.floor(daysSince(user.created_at)/365.25):0],['Forked repositories',repos.filter(r=>r.fork).length],['Archived repositories',repos.filter(r=>r.archived).length],['Original repositories reviewed',own.length],['Recently pushed (90 days)',own.filter(r=>daysSince(r.pushed_at)<=90).length]]){
   const box=el('div','metric');append(box,el('span','',label),el('strong','',Number(value).toLocaleString()));metrics.append(box);
  }
  card.append(metrics);
@@ -94,7 +117,7 @@ function intelligence(user,repos){
  const list=el('div','popular-list');
  for(const r of popular){const row=el('div','popular-item');append(row,link(r.name,r.html_url),el('strong','','★ '+r.stargazers_count));list.append(row);}
  if(!popular.length)list.append(el('p','explanation','No original public repositories found.'));
- card.append(list,el('h3','','Profile visitors'),el('p','explanation','Not publicly available. GitHub does not expose visitor counts for other people’s profiles through its public API. Repository traffic requires authorized access and is not a public popularity metric.'));
+ card.append(list);
  if(user.public_repos>repos.length)card.append(el('p','explanation','Partial inventory: the GitHub API reports '+user.public_repos+' public repositories, but only '+repos.length+' were retrieved. Stars, forks and language totals reflect the retrieved sample.'));
  return card;
 }
@@ -126,7 +149,7 @@ function renderRepos(){
 }
 function render(user,repos){
  output.replaceChildren();output.hidden=false;repositories=repos;visibleCount=8;
- output.append(intelligence(user,repos),summary(repos,user),profile(user));
+ output.append(profile(user),intelligence(user,repos),publicProfileDetails(user),summary(repos,user));
  const section=el('section','card');const head=el('div','section-heading');head.append(el('h2','','Repository review'));
  const controls=el('div','repo-controls');
  const filter=el('input');filter.id='repoFilter';filter.type='search';filter.placeholder='Filter repositories';filter.setAttribute('aria-label','Filter repositories');
@@ -146,6 +169,7 @@ async function analyze(username){
   const user=await api('https://api.github.com/users/'+encodeURIComponent(username),controller.signal);
   // At most 100 repositories: bounded to reduce unauthenticated API requests.
   const repos=await api('https://api.github.com/users/'+encodeURIComponent(user.login)+'/repos?per_page=100&type=public&sort=updated',controller.signal);
+  try{user.social_accounts=await api('https://api.github.com/users/'+encodeURIComponent(user.login)+'/social_accounts',controller.signal);}catch(e){if(e.name==='AbortError')throw e;user.social_accounts=[];}
   if(id!==requestId)return;
   render(user,repos);say('Assessment complete: reviewed '+repos.length+' public repositories for @'+user.login+'.');
   history.replaceState(null,'','#'+encodeURIComponent(user.login));
