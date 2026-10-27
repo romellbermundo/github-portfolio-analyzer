@@ -63,6 +63,12 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v4.7.0 — Original Aurora Sweep
+- Removed the calculator-inspired animation entirely and introduced an original, gentle pale-white aurora sweep on information-card backgrounds.
+- Animates only CSS background position: no overlays, pseudo-elements, clipping, content transforms, or stacking changes that caused previous mobile layout bugs.
+- Preserves responsive layout, staggered timing and reduced-motion support.
+
+
 ### v4.6.0 — Emergency layout stability fix
 - Removed the card animation layers after a mobile screenshot showed oversized empty areas and clipped content.
 - Restored normal card positioning, overflow, and content stacking without changing the underlying dashboard layout or JavaScript.
