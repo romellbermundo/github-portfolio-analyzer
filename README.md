@@ -63,6 +63,12 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v4.5.0 — Nexus Calculator screen animation
+- Replaced the prior buggy card scan with the actual `screen-breathe` and `screen-scan` animation patterns from `react-calculator/src/App.css`, adapted to the analyzer's cards.
+- Fine horizontal monitor lines gently pulse while a low-contrast cyan-white light band descends every nine seconds.
+- All statistics, text and charts stay still; responsive grids and reduced-motion support remain intact.
+
+
 ### v4.4.0 — Animation rebuilt from scratch
 - Removed all prior experimental animation rules and conflicting overrides.
 - Replaced them with one subtle, downward, white monitor-style scan on each outer information-card surface.
