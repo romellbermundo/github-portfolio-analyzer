@@ -63,6 +63,13 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v3.8.0 — Compact follower directory
+- Fixed missing follower-specific CSS that allowed profile photos to render oversized.
+- Enforced two equal-width follower columns with small, circular, fixed-size avatars.
+- Kept follower names readable and clickable for in-app portfolio assessments.
+- Updated asset versions to help bypass stale caches.
+
+
 ### v3.7.0 — Navigate between follower assessments
 - Clicking a follower now opens their assessment in the same dashboard instead of their external GitHub page.
 - Each assessment prominently links to the subject's original GitHub profile.
