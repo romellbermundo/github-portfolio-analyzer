@@ -87,6 +87,42 @@ function publicProfileDetails(user){
  else card.append(el('p','explanation','No LinkedIn profile is explicitly linked through GitHub’s public social accounts. No automated LinkedIn scraping or identity matching is performed.'));
  return card;
 }
+function followersPanel(user){
+ const panel=el('section','card followers-panel');
+ const heading=el('div','followers-heading');
+ heading.append(el('h2','','Followers'),link('View all on GitHub ↗',user.html_url+'?tab=followers'));
+ panel.append(heading);
+ const description=el('p','explanation','Select a follower to open their GitHub profile in a new tab.');
+ const list=el('div','follower-grid');
+ panel.append(description,list);
+ const load=el('button','more','Show followers');
+ load.type='button';load.style.margin='12px 0 0';
+ panel.append(load);
+ let page=0,loading=false;
+ async function next(){
+  if(loading)return;
+  loading=true;load.disabled=true;load.textContent='Loading…';
+  try{
+   const data=await api('https://api.github.com/users/'+encodeURIComponent(user.login)+'/followers?per_page=30&page='+(page+1),controller?.signal);
+   if(!Array.isArray(data))throw Error('Unexpected response.');
+   page++;
+   for(const follower of data){
+    const item=link('',follower.html_url,'follower-item');
+    const avatar=el('img','follower-avatar');avatar.src=follower.avatar_url;avatar.alt='';avatar.loading='lazy';
+    item.append(avatar,el('span','', '@'+follower.login));
+    list.append(item);
+   }
+   if(page===1&&!data.length)list.append(el('p','explanation','No public followers.'));
+   load.hidden=data.length<30 || page*30>=user.followers;
+   load.textContent='Load more followers';
+  }catch(e){
+   if(e.name!=='AbortError'){description.textContent='Could not load followers: '+e.message;load.textContent='Retry loading followers';}
+  }finally{loading=false;load.disabled=false;}
+ }
+ load.addEventListener('click',next);
+ if(user.followers>0)next();else{load.hidden=true;description.textContent='No public followers.';}
+ return panel;
+}
 function intelligence(user,repos){
  const card=el('section','card intelligence dashboard-panel');
  card.append(el('p','eyebrow','PUBLIC DEVELOPER INTELLIGENCE'),el('h2','','Developer at a glance'));
@@ -149,7 +185,7 @@ function renderRepos(){
 }
 function render(user,repos){
  output.replaceChildren();output.hidden=false;repositories=repos;visibleCount=8;
- output.append(profile(user),intelligence(user,repos),publicProfileDetails(user),summary(repos,user));
+ output.append(profile(user),intelligence(user,repos),followersPanel(user),publicProfileDetails(user),summary(repos,user));
  const section=el('section','card repository-panel');const head=el('div','section-heading');head.append(el('h2','','Repository review'));
  const controls=el('div','repo-controls');
  const filter=el('input');filter.id='repoFilter';filter.type='search';filter.placeholder='Filter repositories';filter.setAttribute('aria-label','Filter repositories');
