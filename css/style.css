@@ -7,3 +7,6 @@
 
 /* Developer intelligence v3.2 */
 .intelligence h3{margin:24px 0 14px}.skill-bars{display:grid;gap:13px}.skill-row{display:grid;gap:6px}.skill-label,.popular-item{display:flex;justify-content:space-between;gap:14px;align-items:center}.skill-label span{color:#9bb1c3;font-size:.82rem}.skill-track{height:10px;background:#283a4b;border-radius:99px;overflow:hidden}.skill-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#4b9e83,#a4ebbf)}.popular-list{display:grid;gap:0}.popular-item{border-bottom:1px solid #34485b;padding:12px 0}.popular-item a{overflow-wrap:anywhere}.popular-item strong{color:#a4ebbf;white-space:nowrap}
+
+/* Public profile details v3.3 */
+.profile-facts{display:grid;gap:0}.profile-fact{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:12px 0;border-bottom:1px solid #304459}.profile-fact span{color:#9db1c5;font-size:.84rem}.profile-fact strong{font-weight:600;text-align:right;overflow-wrap:anywhere}.profile-fact a{overflow-wrap:anywhere;text-align:right}.profile-fact:last-child{border:0}@media(max-width:520px){.profile-fact{align-items:flex-start;flex-direction:column;gap:4px}.profile-fact strong,.profile-fact a{text-align:left}}
