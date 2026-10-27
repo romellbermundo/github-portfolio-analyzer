@@ -63,6 +63,14 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v3.3.0 — Public professional profile and reach
+- Added GitHub account age, public gists, forked repository count, location, company, public email, and website when supplied.
+- Added LinkedIn links only when explicitly listed in GitHub public social accounts.
+- Removed the profile visitors section.
+- Kept followers, following, stars, forks, languages, and portfolio recommendations.
+- No automated LinkedIn scraping or identity matching.
+
+
 ### v3.2.1 — README refresh (October 2026)
 - Documented the Developer Intelligence dashboard, assessment sections, and usage steps.
 - Added a clear feature/limitation table and deployment troubleshooting.
