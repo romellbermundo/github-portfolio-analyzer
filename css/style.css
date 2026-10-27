@@ -20,40 +20,26 @@
 .followers-panel{grid-column:1/-1}.followers-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.followers-heading h2{font-size:1.08rem;margin:0}.followers-heading a{font-size:.76rem;color:#9ee4c2}.follower-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 10px}.follower-item{display:flex;align-items:center;gap:9px;min-width:0;padding:7px 9px;border:1px solid #2d4256;border-radius:9px;background:#101b2d;text-decoration:none;font-size:.8rem;line-height:1.25}.follower-item:hover,.follower-item:focus-visible{background:#203c39;border-color:#8bd6b4}.follower-item span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.follower-avatar{display:block;width:32px;height:32px;min-width:32px;max-width:32px;min-height:32px;max-height:32px;object-fit:cover;flex:0 0 32px;border-radius:50%}@media(max-width:600px){.follower-grid{gap:6px}.follower-item{gap:6px;padding:6px;font-size:.7rem}.follower-avatar{width:26px;height:26px;min-width:26px;max-width:26px;min-height:26px;max-height:26px;flex-basis:26px}}
 
 
-/* v4.4 — clean animation rebuild. One compositor-friendly scan per outer card.
-   No animated body, text, metrics, charts, buttons, or nested tiles. */
-.results>.card{
- position:relative;
- isolation:isolate;
- overflow:hidden;
-}
+
+/* v4.5 — adapted directly from Nexus Calculator's .output screen effects.
+   The calculator's fine scanlines breathe; a faint light band travels down.
+   These are background-only layers: content never animates. */
+.results>.card{position:relative;isolation:isolate;overflow:hidden}
 .results>.card::before{
- content:"";
- position:absolute;
- z-index:0;
- pointer-events:none;
- top:0;left:0;right:0;
- height:100%;
- background:linear-gradient(to bottom,
-   transparent 0%,
-   rgba(197,232,250,.025) 35%,
-   rgba(225,245,255,.085) 45%,
-   rgba(245,253,255,.21) 49.5%,
-   rgba(245,253,255,.31) 50%,
-   rgba(215,241,252,.075) 51%,
-   transparent 61%);
- transform:translate3d(0,-110%,0);
- animation:dashboard-card-scan 15s linear infinite;
+ content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+ background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(121,217,255,.035) 4px);
+ animation:nexus-screen-breathe 5s ease-in-out infinite;
 }
-.results>.card:nth-child(2n)::before{animation-delay:-5s}
-.results>.card:nth-child(3n)::before{animation-delay:-10s}
+.results>.card::after{
+ content:"";position:absolute;z-index:0;pointer-events:none;
+ left:0;right:0;top:-30%;height:25%;
+ background:linear-gradient(transparent,rgba(101,223,255,.095),transparent);
+ animation:nexus-screen-scan 9s linear infinite;
+}
 .results>.card>*{position:relative;z-index:1}
-@keyframes dashboard-card-scan{
- 0%{transform:translate3d(0,-110%,0);opacity:0}
- 8%{opacity:1}
- 72%{transform:translate3d(0,110%,0);opacity:1}
- 77%,100%{transform:translate3d(0,110%,0);opacity:0}
-}
+@keyframes nexus-screen-breathe{50%{opacity:.35}}
+@keyframes nexus-screen-scan{to{top:110%}}
 @media(prefers-reduced-motion:reduce){
- .results>.card::before{animation:none;display:none}
+ .results>.card::before,.results>.card::after{animation:none!important}
+ .results>.card::after{display:none}
 }
