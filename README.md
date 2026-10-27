@@ -63,6 +63,13 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v3.5.0 — Deployment diagnostics and legacy cleanup
+- Added an on-page version indicator so the deployed release can be identified immediately.
+- Added cache-busting version parameters to the active CSS and JavaScript links.
+- Removed obsolete OAuth placeholder and unused legacy font files.
+- GitHub Pages must publish from main / (root); repository commits alone do not confirm deployment.
+
+
 ### v3.4.0 — Compact dashboard layout
 - Reduced oversized hero, search, card padding, and metric typography while keeping readable spacing.
 - Added a responsive two-column dashboard layout and denser language/popular-project grids.
