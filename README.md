@@ -63,6 +63,12 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v4.6.0 — Emergency layout stability fix
+- Removed the card animation layers after a mobile screenshot showed oversized empty areas and clipped content.
+- Restored normal card positioning, overflow, and content stacking without changing the underlying dashboard layout or JavaScript.
+- Animation is intentionally disabled pending a tested replacement.
+
+
 ### v4.5.0 — Nexus Calculator screen animation
 - Replaced the prior buggy card scan with the actual `screen-breathe` and `screen-scan` animation patterns from `react-calculator/src/App.css`, adapted to the analyzer's cards.
 - Fine horizontal monitor lines gently pulse while a low-contrast cyan-white light band descends every nine seconds.
