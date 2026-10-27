@@ -62,3 +62,11 @@ main.shell{position:relative;isolation:isolate}
 @keyframes canvas-drift-reverse{0%{transform:translate3d(4%,-5%,0) rotate(5deg) scale(1.07)}100%{transform:translate3d(-5%,4%,0) rotate(-5deg) scale(.96)}}
 @keyframes canvas-sweep{0%{background-position:0% 20%}100%{background-position:100% 80%}}
 @media(prefers-reduced-motion:reduce){body::before,body::after,.results::before{animation:none!important;will-change:auto}}
+
+/* v4.1 — motion belongs to the canvas, never the information */
+.results>.card,.results .metric,.results .repo,.results .follower-item,.results .skill-fill,.results .skill-track,.results .insight,.results .priority-item,.results .popular-item{animation:none!important;transition:none!important;transform:none!important}
+.results .metric::after{content:none!important;display:none!important;animation:none!important}
+.results .repo:hover{transform:none!important;box-shadow:none}
+.results>.card:hover{box-shadow:none}
+.results .skill-fill{box-shadow:none}
+.results .follower-item:hover{background:#203c39;border-color:#8bd6b4}
