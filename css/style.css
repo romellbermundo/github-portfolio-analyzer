@@ -90,3 +90,29 @@ main.shell{position:relative;isolation:isolate}
  100%{background-position:100% 100%;opacity:.85}
 }
 @media(prefers-reduced-motion:reduce){.results>.card::after{animation:none!important}}
+
+/* v4.3 — visible slow monitor-style scan across CARD BACKGROUNDS only */
+.results>.card{position:relative;isolation:isolate;overflow:hidden}
+.results>.card::before{
+ content:"";position:absolute;z-index:0;pointer-events:none;
+ left:0;right:0;top:-145px;height:145px;
+ background:linear-gradient(to bottom,
+ transparent 0%,
+ rgba(196,237,255,.035) 32%,
+ rgba(216,246,255,.12) 70%,
+ rgba(238,252,255,.28) 94%,
+ rgba(245,255,255,.55) 99%,
+ rgba(245,255,255,.08) 100%);
+ filter:drop-shadow(0 0 13px rgba(192,238,255,.28));
+ animation:card-monitor-scan 13s linear infinite;
+}
+.results>.card:nth-child(2n)::before{animation-delay:-5s}
+.results>.card:nth-child(3n)::before{animation-delay:-9s}
+.results>.card>*{position:relative;z-index:1}
+@keyframes card-monitor-scan{
+ 0%{top:-145px;opacity:0}
+ 5%{opacity:1}
+ 83%{top:100%;opacity:1}
+ 84%,100%{top:100%;opacity:0}
+}
+@media(prefers-reduced-motion:reduce){.results>.card::before{animation:none!important;display:none!important}}
