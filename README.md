@@ -63,6 +63,12 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v3.4.0 — Compact dashboard layout
+- Reduced oversized hero, search, card padding, and metric typography while keeping readable spacing.
+- Added a responsive two-column dashboard layout and denser language/popular-project grids.
+- Improved mobile density, repository cards, and above-the-fold information without removing metrics.
+
+
 ### v3.3.0 — Public professional profile and reach
 - Added GitHub account age, public gists, forked repository count, location, company, public email, and website when supplied.
 - Added LinkedIn links only when explicitly listed in GitHub public social accounts.
