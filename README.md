@@ -63,6 +63,13 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v4.0.0 — Animated dashboard canvas
+- Added slow-moving teal and blue ambient lighting to the background behind the dashboard cards.
+- Added a faint drifting light sweep through the results canvas, including behind Portfolio assessment.
+- Kept card content stable and readable with translucent dark panel surfaces.
+- Supports reduced-motion preferences and requires no new dependencies.
+
+
 ### v3.9.0 — Ambient intelligence visual refresh
 - Added a slow luminous title gradient, subtle moving header signal and soft ambient lighting near the hero.
 - Added low-intensity scanning highlights on metric cards, subtle hover lift and glow accents.
