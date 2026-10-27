@@ -1,32 +1,33 @@
-# GitHub Finder
+# GitHub Portfolio Analyzer
 
-**Live site:** [GitHub Pages](https://romellbermundo.github.io/jquery-github-finder/) *(works when GitHub Pages is enabled for the repository)*
+**Live website (GitHub Pages):** https://romellbermundo.github.io/jquery-github-finder/
 
-A clean, responsive tool to discover GitHub users and explore their public repositories.
+A lightweight, mobile-friendly review tool for a developer's public GitHub portfolio. Enter a username to see repository metadata, spot presentation gaps, and prioritize improvements.
 
 ## Features
-- Search by exact GitHub username, with profile avatar, biography, location, followers and public-repository counts.
-- Browse public repositories with stars, forks, primary language, sorting, filtering, and incremental display.
-- Handles missing users, GitHub API rate limits, network errors, and overlapping searches.
-- Shareable profile links using `#username`.
-- Mobile-first dark design, accessible labels, and safe DOM rendering without HTML injection.
-- No jQuery, Bootstrap, build step, authentication, or embedded credentials.
+- Profile summary, public repository inventory, and primary languages
+- Counts of projects with weak descriptions and projects inactive for more than one year
+- Per-repository suggestions for descriptions, demos, age, and forks
+- Filter by repository name or description; sort by presentation gaps, activity, stars, or name
+- Share a username-specific link using `#username`
+- No jQuery, login, API token, or build step required
+
+## Limitations and interpretation
+**This is not a code-quality or employability score.** It does not inspect source code, README files, test coverage, screenshots, or deployed sites. It cannot determine whether a repository is safe to delete. An older project, a missing demo, or low stars are not necessarily weaknesses.
+
+Uses the unauthenticated GitHub REST API and analyzes **up to 100 public repositories** per username. Private repositories are never visible. GitHub rate limits apply. Results may be incomplete for larger accounts. A listed homepage is treated as a potential demo, but not verified.
 
 ## Run locally
-Open `index.html` in a browser or serve the folder with any static HTTP server.
-
-## How it works
-Uses the public [GitHub REST API](https://docs.github.com/en/rest/users/users#get-a-user) and [repository endpoint](https://docs.github.com/en/rest/repos/repos#list-repositories-for-a-user). Requests are unauthenticated and therefore subject to GitHub's public API rate limits. It fetches **up to 100** owned public repositories per user; this is not a complete list for accounts with more than 100 repositories. GitHub API and avatar images require an internet connection.
-
-## Privacy
-No passwords, GitHub tokens, or client secrets are requested or stored. Only publicly available GitHub information is displayed.
+Serve this directory using a static server or open `index.html` in a browser. Internet access is required for GitHub API calls.
 
 ## Version history
-### v2.0.0 — Modern rebuild (October 2026)
-- Replaced the legacy jQuery/Ajax implementation with dependency-free JavaScript.
-- Rebuilt responsive UI, profile rendering, repo discovery and filtering.
-- Removed unsafe placeholder credentials and HTML interpolation of untrusted API fields.
-- Added error handling, request cancellation, and shareable profile URLs.
+### v3.0.0 — Portfolio Analyzer (October 2026)
+- Repurposed the original GitHub Finder into a public portfolio presentation analyzer.
+- Added repository inventory, metadata-based insights, prioritized review, and honest limitations.
+- Preserved the dependency-free, mobile-first design.
 
-### v1.0.0 — Original
-- Basic jQuery GitHub user search and repository display.
+### v2.0.0 — Modern Finder
+- Replaced jQuery with native JavaScript, added responsive search and safe DOM rendering.
+
+### v1.0.0 — Original jQuery Finder
+- Initial GitHub username and repository lookup.
