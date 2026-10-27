@@ -63,6 +63,12 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v4.2.0 — Living card surfaces
+- Added slow, low-contrast teal/blue ambient gradients to the backgrounds of the main information cards.
+- Kept all text, metrics, charts, and inner repository tiles static; no scanning streaks or number animations.
+- Preserved the existing outer dashboard background and reduced-motion support.
+
+
 ### v4.1.0 — Calm information cards
 - Removed scanning highlights and animations from statistics and information cards.
 - Disabled card lifting and motion effects while preserving readable hover feedback on follower links.
