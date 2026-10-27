@@ -63,6 +63,13 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v3.7.0 — Navigate between follower assessments
+- Clicking a follower now opens their assessment in the same dashboard instead of their external GitHub page.
+- Each assessment prominently links to the subject's original GitHub profile.
+- The followers panel still links to the complete GitHub followers directory.
+- Added updated asset version identifiers to help bypass stale browser caches.
+
+
 ### v3.5.0 — Deployment diagnostics and legacy cleanup
 - Added an on-page version indicator so the deployed release can be identified immediately.
 - Added cache-busting version parameters to the active CSS and JavaScript links.
