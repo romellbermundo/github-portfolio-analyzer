@@ -63,6 +63,12 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v4.1.0 — Calm information cards
+- Removed scanning highlights and animations from statistics and information cards.
+- Disabled card lifting and motion effects while preserving readable hover feedback on follower links.
+- Retained the ambient animated background behind the dashboard.
+
+
 ### v4.0.0 — Animated dashboard canvas
 - Added slow-moving teal and blue ambient lighting to the background behind the dashboard cards.
 - Added a faint drifting light sweep through the results canvas, including behind Portfolio assessment.
