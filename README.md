@@ -63,6 +63,14 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v4.4.0 — Animation rebuilt from scratch
+- Removed all prior experimental animation rules and conflicting overrides.
+- Replaced them with one subtle, downward, white monitor-style scan on each outer information-card surface.
+- Used transform-based animation rather than animating top position, to reduce layout work and visual glitches.
+- Left all card contents and nested statistics static; respected reduced-motion preferences.
+- Preserved existing responsive layout and follower directory.
+
+
 ### v4.3.0 — Monitor scan on information-card backgrounds
 - Added a visible, slow, pale-white scan band that moves downward across each main card background.
 - Kept all text, statistics, charts, and inner repository tiles static; the scan is behind card content.
