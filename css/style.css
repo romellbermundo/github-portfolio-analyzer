@@ -21,25 +21,9 @@
 
 
 
-/* v4.5 — adapted directly from Nexus Calculator's .output screen effects.
-   The calculator's fine scanlines breathe; a faint light band travels down.
-   These are background-only layers: content never animates. */
-.results>.card{position:relative;isolation:isolate;overflow:hidden}
-.results>.card::before{
- content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
- background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(121,217,255,.035) 4px);
- animation:nexus-screen-breathe 5s ease-in-out infinite;
-}
-.results>.card::after{
- content:"";position:absolute;z-index:0;pointer-events:none;
- left:0;right:0;top:-30%;height:25%;
- background:linear-gradient(transparent,rgba(101,223,255,.095),transparent);
- animation:nexus-screen-scan 9s linear infinite;
-}
-.results>.card>*{position:relative;z-index:1}
-@keyframes nexus-screen-breathe{50%{opacity:.35}}
-@keyframes nexus-screen-scan{to{top:110%}}
-@media(prefers-reduced-motion:reduce){
- .results>.card::before,.results>.card::after{animation:none!important}
- .results>.card::after{display:none}
-}
+
+/* v4.6 stability fix: remove animated pseudo-layers and stacking changes.
+   Preserve native responsive card sizing and document flow. */
+.results>.card{position:static;isolation:auto;overflow:visible}
+.results>.card::before,.results>.card::after{content:none;display:none;animation:none}
+.results>.card>*{position:static;z-index:auto}
