@@ -21,6 +21,12 @@ Uses the unauthenticated GitHub REST API and analyzes **up to 100 public reposit
 Serve this directory using a static server or open `index.html` in a browser. Internet access is required for GitHub API calls.
 
 ## Version history
+### v3.2.0 — Developer intelligence
+- Added public followers, following, repository counts, stars, forks, archive counts, and recent activity.
+- Added a primary-language breakdown and top-starred original projects.
+- Explicitly marked profile visitor counts as unavailable publicly.
+- Clarified that languages and metrics are observable signals, not verified skills or proficiency.
+
 ### v3.1.0 — Visible assessment and priorities
 - Made Portfolio assessment the first results panel, ahead of the profile.
 - Added an explicit top-five repository improvement priority list with direct links.
