@@ -63,6 +63,13 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v3.9.0 — Ambient intelligence visual refresh
+- Added a slow luminous title gradient, subtle moving header signal and soft ambient lighting near the hero.
+- Added low-intensity scanning highlights on metric cards, subtle hover lift and glow accents.
+- Preserved the compact dashboard, typography, contrast, and mobile layout.
+- Respects reduced-motion preferences and avoids distracting continuous motion in content.
+
+
 ### v3.8.0 — Compact follower directory
 - Fixed missing follower-specific CSS that allowed profile photos to render oversized.
 - Enforced two equal-width follower columns with small, circular, fixed-size avatars.
