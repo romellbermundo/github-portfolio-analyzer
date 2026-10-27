@@ -92,7 +92,7 @@ function followersPanel(user){
  const heading=el('div','followers-heading');
  heading.append(el('h2','','Followers'),link('View all on GitHub ↗',user.html_url+'?tab=followers'));
  panel.append(heading);
- const description=el('p','explanation','Select a follower to open their GitHub profile in a new tab.');
+ const description=el('p','explanation','Select a follower to analyze their public GitHub portfolio here.');
  const list=el('div','follower-grid');
  panel.append(description,list);
  const load=el('button','more','Show followers');
@@ -107,7 +107,7 @@ function followersPanel(user){
    if(!Array.isArray(data))throw Error('Unexpected response.');
    page++;
    for(const follower of data){
-    const item=link('',follower.html_url,'follower-item');
+    const item=el('a','follower-item');item.href='#'+encodeURIComponent(follower.login);item.setAttribute('aria-label','Analyze @'+follower.login+' portfolio');item.addEventListener('click',event=>{event.preventDefault();input.value=follower.login;analyze(follower.login);window.scrollTo({top:0,behavior:'smooth'});});
     const avatar=el('img','follower-avatar');avatar.src=follower.avatar_url;avatar.alt='';avatar.loading='lazy';
     item.append(avatar,el('span','', '@'+follower.login));
     list.append(item);
@@ -164,7 +164,7 @@ function profile(user){
  append(d,el('h2','',user.name||user.login),el('p','username','@'+user.login));
  if(user.bio)d.append(el('p','bio',user.bio));
  const meta=el('div','meta');for(const s of [user.public_repos+' public repos',user.followers+' followers'])meta.append(el('span','pill',s));
- append(d,meta,link('View GitHub profile ↗',user.html_url,'primary-link'));append(card,avatar,d);return card;
+ append(d,meta,link('Original GitHub profile ↗',user.html_url,'primary-link'));append(card,avatar,d);return card;
 }
 function renderRepos(){
  const target=$('repoList');if(!target)return;
