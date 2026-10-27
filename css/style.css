@@ -4,3 +4,6 @@
 
 /* Assessment-first presentation */
 .results>.card:first-child{border-color:#4e8e78;background:linear-gradient(145deg,#19352f,#142035 58%)}.results>.card:first-child>h2{font-size:clamp(1.5rem,3.5vw,2.2rem);margin:8px 0 20px;letter-spacing:-.04em}.priority-panel{margin-top:22px;border-top:1px solid #385c54;padding-top:15px}.priority-panel h3{margin:4px 0 14px}.priority-item{padding:14px 0;border-bottom:1px solid #355047}.priority-item strong{color:#c0f3d9}.priority-item p{margin:7px 0;color:#c6d8e1;font-size:.86rem}.priority-item a{color:#a4e9c6;font-size:.83rem}.priority-item:last-child{border-bottom:0}
+
+/* Developer intelligence v3.2 */
+.intelligence h3{margin:24px 0 14px}.skill-bars{display:grid;gap:13px}.skill-row{display:grid;gap:6px}.skill-label,.popular-item{display:flex;justify-content:space-between;gap:14px;align-items:center}.skill-label span{color:#9bb1c3;font-size:.82rem}.skill-track{height:10px;background:#283a4b;border-radius:99px;overflow:hidden}.skill-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#4b9e83,#a4ebbf)}.popular-list{display:grid;gap:0}.popular-item{border-bottom:1px solid #34485b;padding:12px 0}.popular-item a{overflow-wrap:anywhere}.popular-item strong{color:#a4ebbf;white-space:nowrap}
