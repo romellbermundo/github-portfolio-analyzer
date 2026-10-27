@@ -18,3 +18,32 @@
 
 /* v3.8 — compact follower directory: always two columns */
 .followers-panel{grid-column:1/-1}.followers-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.followers-heading h2{font-size:1.08rem;margin:0}.followers-heading a{font-size:.76rem;color:#9ee4c2}.follower-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 10px}.follower-item{display:flex;align-items:center;gap:9px;min-width:0;padding:7px 9px;border:1px solid #2d4256;border-radius:9px;background:#101b2d;text-decoration:none;font-size:.8rem;line-height:1.25}.follower-item:hover,.follower-item:focus-visible{background:#203c39;border-color:#8bd6b4}.follower-item span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.follower-avatar{display:block;width:32px;height:32px;min-width:32px;max-width:32px;min-height:32px;max-height:32px;object-fit:cover;flex:0 0 32px;border-radius:50%}@media(max-width:600px){.follower-grid{gap:6px}.follower-item{gap:6px;padding:6px;font-size:.7rem}.follower-avatar{width:26px;height:26px;min-width:26px;max-width:26px;min-height:26px;max-height:26px;flex-basis:26px}}
+
+/* v3.9 — ambient intelligence: understated motion and luminous accents */
+:root{--signal:#9ee4c2;--signal-glow:rgba(116,231,191,.16)}
+body{background:radial-gradient(ellipse at 80% -12%,#203956 0,transparent 44%),radial-gradient(ellipse at 5% 35%,#10283a 0,transparent 52%),#0b1220}
+.site-header{position:relative;isolation:isolate;overflow:hidden}
+.site-header::after{content:"";position:absolute;inset:auto -35% 0;z-index:-1;height:1px;background:linear-gradient(90deg,transparent,#7de5c2 48%,transparent);opacity:.55;animation:signal-drift 13s ease-in-out infinite alternate}
+.intro{position:relative;isolation:isolate;overflow:hidden;border-radius:16px}
+.intro::before{content:"";position:absolute;z-index:-1;pointer-events:none;inset:-90% -20% -65% 35%;background:radial-gradient(ellipse at 50% 50%,rgba(91,210,187,.13),rgba(55,112,167,.07) 35%,transparent 65%);animation:ambient-orbit 17s ease-in-out infinite alternate}
+.intro h1 em{background:linear-gradient(105deg,#9cebc8 12%,#e4fff3 40%,#83bdf3 62%,#9cebc8 88%);background-size:230% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:headline-shimmer 11s ease-in-out infinite alternate}
+.brand-mark{box-shadow:0 0 18px rgba(112,227,183,.11)}
+.search{position:relative;overflow:hidden;border-color:#395767;box-shadow:0 12px 35px rgba(0,0,0,.17),0 0 24px rgba(95,205,175,.035)}
+.search::before{content:"";position:absolute;pointer-events:none;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,rgba(153,244,212,.65),transparent);opacity:.65}
+.card{transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease}
+.card:hover{border-color:#406b70;box-shadow:0 0 22px rgba(92,199,171,.055)}
+.metric{position:relative;overflow:hidden}
+.metric::after{content:"";position:absolute;inset:0 auto 0 -65%;width:35%;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(155,236,208,.06),transparent);transform:skewX(-20deg);animation:metric-scan 16s linear infinite}
+.metric:nth-child(2n)::after{animation-delay:-7s}
+.metric:nth-child(3n)::after{animation-delay:-12s}
+.metric strong{font-variant-numeric:tabular-nums}
+.skill-fill{box-shadow:0 0 9px rgba(112,228,188,.2)}
+.repo{transition:border-color .22s ease,background .22s ease,transform .22s ease}
+.repo:hover{border-color:#4b8d82;background:#122338;transform:translateY(-2px)}
+.repo h3 a:hover,.follower-item:hover span{color:#d4ffe8}
+@keyframes ambient-orbit{0%{transform:translate(-12%,-6%) scale(.9);opacity:.5}100%{transform:translate(12%,8%) scale(1.14);opacity:1}}
+@keyframes headline-shimmer{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+@keyframes signal-drift{0%{transform:translateX(-18%);opacity:.2}100%{transform:translateX(18%);opacity:.65}}
+@keyframes metric-scan{0%,80%{transform:translateX(-100%) skewX(-20deg)}95%,100%{transform:translateX(600%) skewX(-20deg)}}
+@media(hover:none){.repo:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.site-header::after,.intro::before,.intro h1 em,.metric::after{animation:none!important}.card,.repo{transition:none!important}.repo:hover{transform:none}}
