@@ -70,3 +70,23 @@ main.shell{position:relative;isolation:isolate}
 .results>.card:hover{box-shadow:none}
 .results .skill-fill{box-shadow:none}
 .results .follower-item:hover{background:#203c39;border-color:#8bd6b4}
+
+/* v4.2 — animate the card surfaces, not their contents */
+.results>.card{position:relative;isolation:isolate;overflow:hidden}
+.results>.card::after{
+ content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+ background:radial-gradient(ellipse 65% 65% at 10% 15%,rgba(81,184,173,.13),transparent 78%),radial-gradient(ellipse 60% 60% at 90% 85%,rgba(80,120,194,.11),transparent 80%);
+ background-size:125% 125%;
+ opacity:.7;
+ animation:card-ambient-drift 22s ease-in-out infinite alternate;
+}
+.results>.card:nth-child(even)::after{animation-duration:28s;animation-direction:alternate-reverse}
+.results>.card>*{position:relative;z-index:1}
+.results .metric,.results .repo,.results .follower-item,.results .skill-fill,.results .skill-track,.results .insight,.results .priority-item,.results .popular-item{animation:none!important;transition:none!important;transform:none!important}
+.results .metric::after{content:none!important;display:none!important}
+.results>.card:hover{transform:none;box-shadow:none}
+@keyframes card-ambient-drift{
+ 0%{background-position:0% 0%;opacity:.45}
+ 100%{background-position:100% 100%;opacity:.85}
+}
+@media(prefers-reduced-motion:reduce){.results>.card::after{animation:none!important}}
