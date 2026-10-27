@@ -64,6 +64,40 @@ function summary(repos,user){
  if(user.public_repos>repos.length)card.append(el('p','explanation','GitHub reports '+user.public_repos+' public repositories; this review covers only '+repos.length+'. Findings are incomplete.'));
  return card;
 }
+function intelligence(user,repos){
+ const card=el('section','card intelligence');
+ card.append(el('p','eyebrow','PUBLIC DEVELOPER INTELLIGENCE'),el('h2','','Developer at a glance'));
+ const own=repos.filter(r=>!r.fork);
+ const stars=own.reduce((n,r)=>n+(r.stargazers_count||0),0);
+ const forks=own.reduce((n,r)=>n+(r.forks_count||0),0);
+ const metrics=el('div','analysis-summary');
+ for(const [label,value] of [['Public repositories',user.public_repos],['Followers',user.followers],['Stars on original repos',stars],['Forks of original repos',forks],['Following',user.following],['Archived repositories',repos.filter(r=>r.archived).length],['Original repositories reviewed',own.length],['Recently pushed (90 days)',own.filter(r=>daysSince(r.pushed_at)<=90).length]]){
+  const box=el('div','metric');append(box,el('span','',label),el('strong','',Number(value).toLocaleString()));metrics.append(box);
+ }
+ card.append(metrics);
+ card.append(el('h3','','Languages and technology signals'));
+ const counts=new Map();
+ for(const r of own){if(r.language)counts.set(r.language,(counts.get(r.language)||0)+1);}
+ const ranked=[...counts].sort((a,b)=>b[1]-a[1]);
+ const bars=el('div','skill-bars');
+ for(const [language,count] of ranked.slice(0,12)){
+  const row=el('div','skill-row'),head=el('div','skill-label');
+  append(head,el('strong','',language),el('span','',count+' '+(count===1?'repository':'repositories')));
+  const track=el('div','skill-track'),fill=el('div','skill-fill');
+  fill.style.width=(100*count/Math.max(1,own.length))+'%';
+  track.append(fill);row.append(head,track);bars.append(row);
+ }
+ if(!ranked.length)bars.append(el('p','explanation','No primary programming languages reported for these repositories.'));
+ card.append(bars,el('p','explanation','Language counts use GitHub’s primary language for each original repository, not all languages in the codebase. Counts are not proficiency ratings. Forks are excluded.'));
+ const popular=[...own].sort((a,b)=>b.stargazers_count-a.stargazers_count).slice(0,5);
+ card.append(el('h3','','Most starred original projects'));
+ const list=el('div','popular-list');
+ for(const r of popular){const row=el('div','popular-item');append(row,link(r.name,r.html_url),el('strong','','★ '+r.stargazers_count));list.append(row);}
+ if(!popular.length)list.append(el('p','explanation','No original public repositories found.'));
+ card.append(list,el('h3','','Profile visitors'),el('p','explanation','Not publicly available. GitHub does not expose visitor counts for other people’s profiles through its public API. Repository traffic requires authorized access and is not a public popularity metric.'));
+ if(user.public_repos>repos.length)card.append(el('p','explanation','Partial inventory: the GitHub API reports '+user.public_repos+' public repositories, but only '+repos.length+' were retrieved. Stars, forks and language totals reflect the retrieved sample.'));
+ return card;
+}
 function profile(user){
  const card=el('section','card profile-card');
  const avatar=el('img','avatar');avatar.src=user.avatar_url;avatar.alt=user.login+' avatar';avatar.loading='lazy';
@@ -92,7 +126,7 @@ function renderRepos(){
 }
 function render(user,repos){
  output.replaceChildren();output.hidden=false;repositories=repos;visibleCount=8;
- output.append(summary(repos,user),profile(user));
+ output.append(intelligence(user,repos),summary(repos,user),profile(user));
  const section=el('section','card');const head=el('div','section-heading');head.append(el('h2','','Repository review'));
  const controls=el('div','repo-controls');
  const filter=el('input');filter.id='repoFilter';filter.type='search';filter.placeholder='Filter repositories';filter.setAttribute('aria-label','Filter repositories');
@@ -119,5 +153,5 @@ async function analyze(username){
  finally{if(id===requestId)button.disabled=false;}
 }
 form.addEventListener('submit',e=>{e.preventDefault();analyze(input.value.trim());});
-const initial=decodeURIComponent(location.hash.slice(1)).trim();if(valid(initial)){input.value=initial;analyze(initial);}
+let initial='';try{initial=decodeURIComponent(location.hash.slice(1)).trim();}catch(_){initial='';}if(valid(initial)){input.value=initial;analyze(initial);}
 })();
