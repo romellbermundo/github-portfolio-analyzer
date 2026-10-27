@@ -63,6 +63,12 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v4.3.0 — Monitor scan on information-card backgrounds
+- Added a visible, slow, pale-white scan band that moves downward across each main card background.
+- Kept all text, statistics, charts, and inner repository tiles static; the scan is behind card content.
+- Staggered scans across cards and preserved reduced-motion accessibility.
+
+
 ### v4.2.0 — Living card surfaces
 - Added slow, low-contrast teal/blue ambient gradients to the backgrounds of the main information cards.
 - Kept all text, metrics, charts, and inner repository tiles static; no scanning streaks or number animations.
