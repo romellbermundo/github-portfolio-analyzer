@@ -179,6 +179,10 @@ function intelligence(user,repos){
  for(const [label,value] of [['Public repositories',user.public_repos],['Followers',user.followers],['Stars on original repos',stars],['Forks of original repos',forks],['Following',user.following],['Public gists',user.public_gists],['GitHub account age (years)',user.created_at?Math.floor(daysSince(user.created_at)/365.25):0],['Forked repositories',repos.filter(r=>r.fork).length],['Archived repositories',repos.filter(r=>r.archived).length],['Original repos reviewed',own.length],['Recent push (90 days)',own.filter(r=>daysSince(r.pushed_at)<=90).length]]){
   const box=el('div','metric');append(box,el('span','',label),animatedNumber(value));metrics.append(box);
  }
+ const latestPush=own.map(r=>r.pushed_at).filter(Boolean).sort((a,b)=>new Date(b)-new Date(a))[0];
+ const lastUpdate=el('div','metric');
+ append(lastUpdate,el('span','','Last repo update'),el('strong','',latestPush?new Date(latestPush).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}):'No updates'));
+ metrics.append(lastUpdate);
  card.append(metrics);
  card.append(el('h3','','Languages and technology signals'));
  const counts=new Map();
