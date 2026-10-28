@@ -63,6 +63,14 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.7 — Lightweight reliability pass
+- Followers now load only when requested, avoiding an automatic extra GitHub API call for every analysis.
+- Animated metrics trigger with a low intersection threshold so tall sections on narrow phones can animate reliably.
+- Guarded follower results against rendering after their panel has been removed.
+- Retained the zero-dependency static GitHub Pages architecture; no backend, AI tokens, or new runtime libraries.
+- JavaScript syntax was checked; full browser/network regression testing remains pending.
+
+
 ### v5.6 — Compact copy and QR sharing
 - Replaced vague repository review badges with clear metadata descriptions.
 - Centered the version label, assessment status, and stacked footer.
