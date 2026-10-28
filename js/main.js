@@ -31,7 +31,7 @@ function startDashboardMotion(){
    bars.forEach(b=>b.style.width=b.dataset.finalWidth);
    return;
   }
-  nums.forEach(n=>n.textContent='0'+(n.dataset.countUnit?' repositories':'');
+  nums.forEach(n=>{n.textContent='0'+(n.dataset.countUnit?' repositories':'');});
   bars.forEach(b=>b.style.width='0%');
   const duration=2000;
   let start=null;
