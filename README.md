@@ -63,6 +63,13 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.6 — Compact copy and QR sharing
+- Replaced vague repository review badges with clear metadata descriptions.
+- Centered the version label, assessment status, and stacked footer.
+- Shortened the search hint and metadata explanations.
+- Added a Simple Rosary-inspired share modal with a QR code for the site homepage, subtle opening animation, outside-tap dismissal, and a website fallback link. The QR image loads from a third-party QR service and requires internet access.
+
+
 ### v5.5.1 — Critical JavaScript syntax repair
 - Fixed a missing closing parenthesis in the count-up initializer that prevented the entire analyzer script from loading.
 - Verified the updated JavaScript parses successfully before committing.
