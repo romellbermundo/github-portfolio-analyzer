@@ -38,7 +38,7 @@
  background-size:100% 130px,100% 100%;
  background-position:center top -130px,center center;
  background-repeat:no-repeat;
- animation:card-sweep-down 5s linear infinite;
+ animation:card-sweep-down 8s linear infinite;
 }
 .results>.card:first-child{
  background-image:
