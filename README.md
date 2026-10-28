@@ -63,6 +63,12 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.0.0 — Consistent downward card sweep
+- Replaced percentage-based oversized-gradient motion with a fixed-height 130px light band and explicit top-to-bottom movement.
+- Applied the same animation explicitly to the profile card and all other information cards.
+- Kept the five-second cycle, responsive layout, and reduced-motion support.
+
+
 ### v4.9.0 — Correct scan direction
 - Reversed the oversized gradient's background-position animation so the light travels from top to bottom rather than bottom to top.
 - Kept the five-second cycle, card-only background animation, and mobile-safe layout.
