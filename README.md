@@ -63,6 +63,13 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.4.0 — Count-up statistics and language bars
+- Numbers in Developer at a glance and Portfolio assessment count up from zero over two seconds.
+- Language bars grow from zero to their GitHub-derived percentages while repository counts animate in sync.
+- Animations trigger once when each section scrolls into view; new searches animate the new results.
+- Respects reduced-motion preferences, avoids layout/card movement, and preserves responsive layout.
+
+
 ### v5.3.0 — Two metrics per row on mobile
 - Fixed mobile metric grids to show two information cards side by side in every row, instead of one full-width card.
 - Tightened label/value spacing and type sizes for narrow screens while preserving responsive behavior and animation.
