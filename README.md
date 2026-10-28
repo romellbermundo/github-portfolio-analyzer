@@ -63,6 +63,11 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.3.0 — Two metrics per row on mobile
+- Fixed mobile metric grids to show two information cards side by side in every row, instead of one full-width card.
+- Tightened label/value spacing and type sizes for narrow screens while preserving responsive behavior and animation.
+
+
 ### v5.2.0 — Compact information layout
 - Simplified the assessment completion message (no username suffix).
 - Converted intelligence and portfolio assessment metric tiles to one-line label/value rows.
