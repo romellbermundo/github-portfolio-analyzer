@@ -28,28 +28,27 @@
 .results>.card::before,.results>.card::after{content:none;display:none;animation:none}
 .results>.card>*{position:static;z-index:auto}
 
-/* v4.9 — corrected top-to-bottom scan direction; no fixed overlay.\n   v4.7 — original Aurora Sweep: card-background-only animation.
-   No pseudo-elements, clipping, stacking contexts or layout changes. */
-.results>.card{
+
+/* v5.0: explicit top-to-bottom sweep, including the profile card.
+   A fixed-height beam traverses each card; no overlay or layout changes. */
+.results>.card,.results>.card:first-child{
  background-image:
-  linear-gradient(180deg,transparent 35%,rgba(220,245,255,.10) 47%,rgba(244,253,255,.17) 50%,rgba(142,218,224,.075) 54%,transparent 65%),
-  radial-gradient(ellipse at 80% 10%,rgba(67,132,157,.095),transparent 65%),
+  linear-gradient(to bottom,transparent 0%,rgba(216,245,255,.035) 30%,rgba(241,252,255,.22) 49%,rgba(216,245,255,.035) 70%,transparent 100%),
   linear-gradient(145deg,#17283e,#142035);
- background-size:100% 340%,100% 100%,100% 100%;
- background-position:center 100%,center,center;
+ background-size:100% 130px,100% 100%;
+ background-position:center top -130px,center center;
  background-repeat:no-repeat;
- animation:aurora-card-sweep 5s linear infinite;
+ animation:card-sweep-down 5s linear infinite;
 }
 .results>.card:first-child{
  background-image:
-  linear-gradient(180deg,transparent 35%,rgba(220,245,255,.10) 47%,rgba(244,253,255,.17) 50%,rgba(142,218,224,.075) 54%,transparent 65%),
-  radial-gradient(ellipse at 80% 10%,rgba(67,132,157,.095),transparent 65%),
+  linear-gradient(to bottom,transparent 0%,rgba(216,245,255,.035) 30%,rgba(241,252,255,.22) 49%,rgba(216,245,255,.035) 70%,transparent 100%),
   linear-gradient(145deg,#19352f,#142035 58%);
 }
-@keyframes aurora-card-sweep{
- 0%{background-position:center 100%,center,center}
- 100%{background-position:center 0%,center,center}
+@keyframes card-sweep-down{
+ from{background-position:center top -130px,center center}
+ to{background-position:center bottom -130px,center center}
 }
 @media(prefers-reduced-motion:reduce){
- .results>.card{animation:none;background-position:center 50%,center,center}
+ .results>.card,.results>.card:first-child{animation:none;background-position:center top -130px,center center}
 }
