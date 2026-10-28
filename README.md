@@ -63,6 +63,11 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.5.1 — Critical JavaScript syntax repair
+- Fixed a missing closing parenthesis in the count-up initializer that prevented the entire analyzer script from loading.
+- Verified the updated JavaScript parses successfully before committing.
+
+
 ### v5.5.0 — Reliable visible count-up
 - Initialize numbers and language bars at zero before the section enters view, preventing the final values from appearing before animation begins.
 - Animate with a two-second ease-in-out curve rather than jumping quickly to the final values.
