@@ -2,7 +2,7 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const form = $('searchForm'), input = $('searchUser'), button = $('searchButton'), status = $('status'), output = $('profile');
-let controller = null, requestId = 0, repositories = [], visibleCount = 8;
+let controller = null, requestId = 0, repositories = [], visibleCount = 3;
 const el = (tag, cls = '', text = null) => { const n = document.createElement(tag); if(cls)n.className=cls; if(text!==null)n.textContent=String(text); return n; };
 const append = (parent,...children) => { parent.append(...children); return parent; };
 const link = (text,url,cls='') => {const n=el('a',cls,text);n.href=url;n.target='_blank';n.rel='noopener noreferrer';return n;};
@@ -35,7 +35,7 @@ function summary(repos,user){
  const card=el('section','card assessment-panel');
  card.append(el('p','eyebrow','YOUR PORTFOLIO ASSESSMENT'),el('h2','','Portfolio assessment'));
  const metrics=el('div','analysis-summary');
- for(const [label,value] of [['Repositories reviewed',repos.length],['Active in past year',own.length-stale.length],['Need descriptions',missing.length],['Languages',langs.size]]){
+ for(const [label,value] of [['Repos reviewed',repos.length],['Active past year',own.length-stale.length],['Need descriptions',missing.length],['Languages',langs.size]]){
   const box=el('div','metric');append(box,el('span','',label),el('strong','',value));metrics.append(box);
  }
  card.append(metrics);
@@ -68,23 +68,25 @@ function publicProfileDetails(user){
  const card=el('section','card public-details-panel');
  card.append(el('h2','','Public profile details'));
  const facts=el('div','profile-facts');
- const entries=[['GitHub member since',user.created_at?fmt(user.created_at):null],['Location',user.location],['Company',user.company],['Public name',user.name],['Public email',user.email],['Public blog / website',user.blog]];
+ const social=Array.isArray(user.social_accounts)?user.social_accounts:[];
+ const linkedin=social.find(s=>s.provider==='linkedin'&&/^https:\/\/(www\.)?linkedin\.com\//i.test(s.url||''));
+ const entries=[
+  ['GitHub member since',user.created_at?fmt(user.created_at):null],
+  ['Account age',user.created_at?Math.floor(daysSince(user.created_at)/365.25)+' years':null],
+  ['Location',user.location],
+  ['Company',user.company],
+  ['Public name',user.name],
+  ['LinkedIn profile',linkedin?.url||null]
+ ];
  for(const [label,value] of entries){
   if(!value)continue;
   const row=el('div','profile-fact');row.append(el('span','',label));
-  if(label==='Public blog / website'){
-   try{const url=new URL(/^https?:\/\//i.test(value)?value:'https://'+value);if(['http:','https:'].includes(url.protocol))row.append(link(url.hostname,url.href));else row.append(el('strong','',value));}
-   catch(_){row.append(el('strong','',value));}
-  }else row.append(el('strong','',value));
+  if(label==='LinkedIn profile')row.append(link('View LinkedIn ↗',value));
+  else row.append(el('strong','',value));
   facts.append(row);
  }
- if(!facts.children.length)facts.append(el('p','explanation','This account has not provided additional public profile details.'));
+ if(!facts.children.length)facts.append(el('p','explanation','No additional public profile details provided.'));
  card.append(facts);
- const social=Array.isArray(user.social_accounts)?user.social_accounts:[];
- const linkedin=social.find(s=>s.provider==='linkedin'&&/^https:\/\/(www\.)?linkedin\.com\//i.test(s.url||''));
- card.append(el('h3','','Professional links'));
- if(linkedin)card.append(link('LinkedIn profile ↗',linkedin.url,'primary-link'));
- else card.append(el('p','explanation','No LinkedIn profile is explicitly linked through GitHub’s public social accounts. No automated LinkedIn scraping or identity matching is performed.'));
  return card;
 }
 function followersPanel(user){
@@ -130,7 +132,7 @@ function intelligence(user,repos){
  const stars=own.reduce((n,r)=>n+(r.stargazers_count||0),0);
  const forks=own.reduce((n,r)=>n+(r.forks_count||0),0);
  const metrics=el('div','analysis-summary');
- for(const [label,value] of [['Public repositories',user.public_repos],['Followers',user.followers],['Stars on original repos',stars],['Forks of original repos',forks],['Following',user.following],['Public gists',user.public_gists],['GitHub account age (years)',user.created_at?Math.floor(daysSince(user.created_at)/365.25):0],['Forked repositories',repos.filter(r=>r.fork).length],['Archived repositories',repos.filter(r=>r.archived).length],['Original repositories reviewed',own.length],['Recently pushed (90 days)',own.filter(r=>daysSince(r.pushed_at)<=90).length]]){
+ for(const [label,value] of [['Public repositories',user.public_repos],['Followers',user.followers],['Stars on original repos',stars],['Forks of original repos',forks],['Following',user.following],['Public gists',user.public_gists],['GitHub account age (years)',user.created_at?Math.floor(daysSince(user.created_at)/365.25):0],['Forked repositories',repos.filter(r=>r.fork).length],['Archived repositories',repos.filter(r=>r.archived).length],['Original repos reviewed',own.length],['Recent push (90 days)',own.filter(r=>daysSince(r.pushed_at)<=90).length]]){
   const box=el('div','metric');append(box,el('span','',label),el('strong','',Number(value).toLocaleString()));metrics.append(box);
  }
  card.append(metrics);
@@ -148,7 +150,7 @@ function intelligence(user,repos){
  }
  if(!ranked.length)bars.append(el('p','explanation','No primary programming languages reported for these repositories.'));
  card.append(bars,el('p','explanation','Language counts use GitHub’s primary language for each original repository, not all languages in the codebase. Counts are not proficiency ratings. Forks are excluded.'));
- const popular=[...own].sort((a,b)=>b.stargazers_count-a.stargazers_count).slice(0,5);
+ const popular=[...own].sort((a,b)=>b.stargazers_count-a.stargazers_count).slice(0,6);
  card.append(el('h3','','Most starred original projects'));
  const list=el('div','popular-list');
  for(const r of popular){const row=el('div','popular-item');append(row,link(r.name,r.html_url),el('strong','','★ '+r.stargazers_count));list.append(row);}
@@ -184,7 +186,7 @@ function renderRepos(){
  const more=$('loadMore');more.hidden=filtered.length<=visibleCount;more.textContent='Show more ('+Math.max(0,filtered.length-visibleCount)+' remaining)';
 }
 function render(user,repos){
- output.replaceChildren();output.hidden=false;repositories=repos;visibleCount=8;
+ output.replaceChildren();output.hidden=false;repositories=repos;visibleCount=3;
  output.append(profile(user),intelligence(user,repos),followersPanel(user),publicProfileDetails(user),summary(repos,user));
  const section=el('section','card repository-panel');const head=el('div','section-heading');head.append(el('h2','','Repository review'));
  const controls=el('div','repo-controls');
@@ -194,7 +196,7 @@ function render(user,repos){
  controls.append(filter,sort);head.append(controls);
  const list=el('div','repo-list');list.id='repoList';const more=el('button','more','Show more');more.id='loadMore';more.type='button';
  section.append(head,list,more);output.append(section);
- filter.addEventListener('input',()=>{visibleCount=8;renderRepos();});sort.addEventListener('change',renderRepos);more.addEventListener('click',()=>{visibleCount+=8;renderRepos();});
+ filter.addEventListener('input',()=>{visibleCount=3;renderRepos();});sort.addEventListener('change',renderRepos);more.addEventListener('click',()=>{visibleCount+=3;renderRepos();});
  renderRepos();
 }
 async function analyze(username){
@@ -207,7 +209,7 @@ async function analyze(username){
   const repos=await api('https://api.github.com/users/'+encodeURIComponent(user.login)+'/repos?per_page=100&type=public&sort=updated',controller.signal);
   try{user.social_accounts=await api('https://api.github.com/users/'+encodeURIComponent(user.login)+'/social_accounts',controller.signal);}catch(e){if(e.name==='AbortError')throw e;user.social_accounts=[];}
   if(id!==requestId)return;
-  render(user,repos);say('Assessment complete: reviewed '+repos.length+' public repositories for @'+user.login+'.');
+  render(user,repos);say('Assessment complete: reviewed '+repos.length+' public repositories.');
   history.replaceState(null,'','#'+encodeURIComponent(user.login));
  }catch(err){if(err.name==='AbortError'||id!==requestId)return;say(err.message||'Network error. Please retry.',true);}
  finally{if(id===requestId)button.disabled=false;}
