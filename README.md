@@ -63,6 +63,11 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v4.9.0 — Correct scan direction
+- Reversed the oversized gradient's background-position animation so the light travels from top to bottom rather than bottom to top.
+- Kept the five-second cycle, card-only background animation, and mobile-safe layout.
+
+
 ### v4.8.0 — Immediate five-second sweep
 - Aurora Sweep now starts immediately and completes a full downward pass every five seconds.
 - Removed staggered negative delays and idle portions of the animation so the first pass is predictable.
