@@ -16,7 +16,7 @@ async function api(url,signal){
 // Count and fill only when the section enters the viewport. Respect reduced motion.
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const animatedNumber = value => {
- const node=el('strong','count-up',Number(value).toLocaleString());
+ const node=el('strong','count-up',reducedMotion()?Number(value).toLocaleString():'0');
  node.dataset.target=String(Number(value)||0);
  return node;
 };
@@ -39,7 +39,7 @@ function startDashboardMotion(){
    if(!group.isConnected)return;
    if(start===null)start=now;
    const t=Math.min(1,(now-start)/duration);
-   const eased=1-Math.pow(1-t,3);
+   const eased=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
    nums.forEach(n=>{const target=Number(n.dataset.target??n.dataset.countTarget)||0;const current=Math.round(target*eased);n.textContent=current.toLocaleString()+(n.dataset.countUnit?' '+(current===1?'repository':'repositories'):'');});
    bars.forEach(b=>b.style.width=(parseFloat(b.dataset.finalWidth)*eased)+'%');
    if(t<1)requestAnimationFrame(tick);
@@ -53,7 +53,7 @@ function startDashboardMotion(){
    motionObserver?.unobserve(entry.target);
    run(entry.target);
   });
- },{threshold:0.12});
+ },{threshold:0.3});
  groups.forEach(group=>motionObserver.observe(group));
 }
 const daysSince = d => Math.max(0,Math.floor((Date.now()-new Date(d).getTime())/86400000));
@@ -186,11 +186,12 @@ function intelligence(user,repos){
  const bars=el('div','skill-bars');
  for(const [language,count] of ranked.slice(0,12)){
   const row=el('div','skill-row'),head=el('div','skill-label');
-  const countLabel=el('span','',count+' '+(count===1?'repository':'repositories'));
+  const countLabel=el('span','',reducedMotion()?count+' '+(count===1?'repository':'repositories'):'0 repositories');
   countLabel.dataset.countTarget=String(count);countLabel.dataset.countUnit=count===1?'repository':'repositories';
   append(head,el('strong','',language),countLabel);
   const track=el('div','skill-track'),fill=el('div','skill-fill');
   fill.dataset.finalWidth=(100*count/Math.max(1,own.length))+'%';
+  fill.style.width=reducedMotion()?fill.dataset.finalWidth:'0%';
   track.append(fill);row.append(head,track);bars.append(row);
  }
  if(!ranked.length)bars.append(el('p','explanation','No primary programming languages reported for these repositories.'));
