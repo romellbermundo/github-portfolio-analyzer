@@ -63,6 +63,12 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v4.8.0 — Immediate five-second sweep
+- Aurora Sweep now starts immediately and completes a full downward pass every five seconds.
+- Removed staggered negative delays and idle portions of the animation so the first pass is predictable.
+- Retained background-only animation, responsive layout and reduced-motion support.
+
+
 ### v4.7.0 — Original Aurora Sweep
 - Removed the calculator-inspired animation entirely and introduced an original, gentle pale-white aurora sweep on information-card backgrounds.
 - Animates only CSS background position: no overlays, pseudo-elements, clipping, content transforms, or stacking changes that caused previous mobile layout bugs.
