@@ -119,3 +119,6 @@
 @keyframes share-enter{from{opacity:0;transform:translateY(9px) scale(.98)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.share-dialog{animation:none}}
 @media(max-width:390px){.search-hint{font-size:.56rem}}
+
+/* Soft yellow repository language labels */
+.repo-stats .repo-language{color:#f5e6a5}
