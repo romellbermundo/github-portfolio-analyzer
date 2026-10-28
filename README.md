@@ -1,10 +1,10 @@
 # GitHub Portfolio Analyzer
 
-**[Open the live app](https://romellbermundo.github.io/jquery-github-finder/)** · [Try an analysis of @romellbermundo](https://romellbermundo.github.io/jquery-github-finder/#romellbermundo)
+**[Open the live app](https://romellbermundo.github.io/github-portfolio-analyzer/)** · [Try an analysis of @romellbermundo](https://romellbermundo.github.io/github-portfolio-analyzer/#romellbermundo)
 
 A lightweight, mobile-first dashboard for exploring a developer's **public GitHub footprint** and finding practical ways to present their projects better. Enter any public GitHub username to see developer statistics, language signals, popular projects, and actionable portfolio recommendations.
 
-> **Deployment note:** The GitHub Pages URL is the intended published address. If the website is unavailable or shows an older version, check [Settings → Pages](https://github.com/romellbermundo/jquery-github-finder/settings/pages) and select **Deploy from a branch → main → /(root)**. The live deployment has not been independently verified.
+> **Deployment note:** The GitHub Pages URL is the intended published address. If the website is unavailable or shows an older version, check [Settings → Pages](https://github.com/romellbermundo/github-portfolio-analyzer/settings/pages) and select **Deploy from a branch → main → /(root)**. The live deployment has not been independently verified.
 
 ## What you'll see
 
@@ -28,7 +28,7 @@ A lightweight, mobile-first dashboard for exploring a developer's **public GitHu
 
 ## How to use
 
-1. [Open the app](https://romellbermundo.github.io/jquery-github-finder/).
+1. [Open the app](https://romellbermundo.github.io/github-portfolio-analyzer/).
 2. Enter a GitHub username, for example `romellbermundo`.
 3. Select **Analyze portfolio**.
 4. Read **Developer at a glance**, **Portfolio assessment**, and **Repository review**.
@@ -62,6 +62,10 @@ The app uses the unauthenticated GitHub REST API, requests up to **100 public re
 Clone this repository and serve its root directory with any static web server, or open `index.html` in a browser. An internet connection is required to load public GitHub data.
 
 ## Version history
+
+### v5.7.1 — Repository rename link repair
+- Updated the live site, sample analysis, README, and share QR destination to the renamed github-portfolio-analyzer GitHub Pages address.
+
 
 ### v5.7 — Lightweight reliability pass
 - Followers now load only when requested, avoiding an automatic extra GitHub API call for every analysis.
