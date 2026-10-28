@@ -52,3 +52,30 @@
 @media(prefers-reduced-motion:reduce){
  .results>.card,.results>.card:first-child{animation:none;background-position:center top -130px,center center}
 }
+
+/* v5.2 compact, single-line data rows. No changes to animation layers. */
+.intelligence .analysis-summary,.assessment-panel .analysis-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.intelligence .metric,.assessment-panel .metric{
+ display:flex;align-items:center;justify-content:space-between;gap:10px;
+ min-width:0;padding:10px 12px;
+}
+.intelligence .metric span,.assessment-panel .metric span{
+ font-size:.76rem;line-height:1.3;min-width:0;overflow-wrap:anywhere;
+}
+.intelligence .metric strong,.assessment-panel .metric strong{
+ margin:0;flex:0 0 auto;font-size:1.05rem;line-height:1.2;font-variant-numeric:tabular-nums;
+}
+.intelligence .popular-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px}
+.intelligence .popular-item{min-width:0}
+.intelligence .popular-item a{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.public-details-panel .profile-facts{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:18px}
+.public-details-panel .profile-fact{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;min-width:0}
+.public-details-panel .profile-fact strong,.public-details-panel .profile-fact a{text-align:left}
+@media(max-width:600px){
+ .intelligence .analysis-summary,.assessment-panel .analysis-summary{grid-template-columns:1fr}
+ .intelligence .metric,.assessment-panel .metric{padding:9px 11px}
+ .intelligence .popular-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 10px}
+ .intelligence .popular-item{font-size:.72rem;gap:5px}
+ .public-details-panel .profile-facts{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:10px}
+ .public-details-panel .profile-fact{gap:3px}
+}
