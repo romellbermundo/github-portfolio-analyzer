@@ -267,7 +267,7 @@ const shareDialog=$('shareDialog'),shareButton=$('openShare'),shareQr=$('shareQr
 if(shareDialog&&shareButton&&shareQr){
  shareButton.addEventListener('click',()=>{
   if(!shareQr.getAttribute('src')){
-   const url='https://romellbermundo.github.io/jquery-github-finder/';
+   const url='https://romellbermundo.github.io/github-portfolio-analyzer/';
    shareQr.src='https://api.qrserver.com/v1/create-qr-code/?size=480x480&margin=24&data='+encodeURIComponent(url);
   }
   shareDialog.showModal();
