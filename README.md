@@ -63,6 +63,15 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.2.0 — Compact information layout
+- Simplified the assessment completion message (no username suffix).
+- Converted intelligence and portfolio assessment metric tiles to one-line label/value rows.
+- Shows up to six starred original projects in two columns, with star counts.
+- Shows public profile facts in two columns, including account age and LinkedIn only when explicitly linked on GitHub.
+- Repository review initially shows three projects and reveals three more per click.
+- Preserves the eight-second background sweep and responsive mobile layout.
+
+
 ### v5.1.0 — Calmer eight-second scan
 - Slowed the downward scan from five to eight seconds across every information card, including the profile card.
 - Kept a consistent linear speed curve, card backgrounds only, and the existing mobile-responsive layout.
