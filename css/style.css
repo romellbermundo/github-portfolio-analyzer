@@ -96,3 +96,8 @@
   font-size:.95rem;
  }
 }
+
+/* v5.4 animated language bars, with no layout or card-motion changes */
+.skill-fill{transition:none;will-change:width}
+.count-up{font-variant-numeric:tabular-nums}
+@media(prefers-reduced-motion:reduce){.skill-fill{will-change:auto}}
