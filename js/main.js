@@ -2,7 +2,7 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const form = $('searchForm'), input = $('searchUser'), button = $('searchButton'), status = $('status'), output = $('profile');
-let controller = null, requestId = 0, repositories = [], visibleCount = 3;
+let controller = null, requestId = 0, repositories = [], visibleCount = 3, motionObserver = null;
 const el = (tag, cls = '', text = null) => { const n = document.createElement(tag); if(cls)n.className=cls; if(text!==null)n.textContent=String(text); return n; };
 const append = (parent,...children) => { parent.append(...children); return parent; };
 const link = (text,url,cls='') => {const n=el('a',cls,text);n.href=url;n.target='_blank';n.rel='noopener noreferrer';return n;};
@@ -12,6 +12,49 @@ async function api(url,signal){
  const r=await fetch(url,{signal,headers:{Accept:'application/vnd.github+json'}});
  if(!r.ok){if(r.status===404)throw Error('GitHub user not found.');if(r.status===403||r.status===429)throw Error('GitHub API rate limit reached. Try again later.');throw Error('GitHub request failed (HTTP '+r.status+').');}
  return r.json();
+}
+// Count and fill only when the section enters the viewport. Respect reduced motion.
+const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const animatedNumber = value => {
+ const node=el('strong','count-up',Number(value).toLocaleString());
+ node.dataset.target=String(Number(value)||0);
+ return node;
+};
+function startDashboardMotion(){
+ if(motionObserver){motionObserver.disconnect();motionObserver=null;}
+ const groups=output.querySelectorAll('.analysis-summary, .skill-bars');
+ const run=group=>{
+  const nums=[...group.querySelectorAll('.count-up,[data-count-target]')];
+  const bars=[...group.querySelectorAll('.skill-fill[data-final-width]')];
+  if(reducedMotion()){
+   nums.forEach(n=>{const target=Number(n.dataset.target??n.dataset.countTarget)||0;n.textContent=target.toLocaleString()+(n.dataset.countUnit?' '+(target===1?'repository':'repositories'):'');});
+   bars.forEach(b=>b.style.width=b.dataset.finalWidth);
+   return;
+  }
+  nums.forEach(n=>n.textContent='0'+(n.dataset.countUnit?' repositories':'');
+  bars.forEach(b=>b.style.width='0%');
+  const duration=2000;
+  let start=null;
+  const tick=now=>{
+   if(!group.isConnected)return;
+   if(start===null)start=now;
+   const t=Math.min(1,(now-start)/duration);
+   const eased=1-Math.pow(1-t,3);
+   nums.forEach(n=>{const target=Number(n.dataset.target??n.dataset.countTarget)||0;const current=Math.round(target*eased);n.textContent=current.toLocaleString()+(n.dataset.countUnit?' '+(current===1?'repository':'repositories'):'');});
+   bars.forEach(b=>b.style.width=(parseFloat(b.dataset.finalWidth)*eased)+'%');
+   if(t<1)requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+ };
+ if(!('IntersectionObserver' in window)){groups.forEach(run);return;}
+ motionObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+   if(!entry.isIntersecting)return;
+   motionObserver?.unobserve(entry.target);
+   run(entry.target);
+  });
+ },{threshold:0.12});
+ groups.forEach(group=>motionObserver.observe(group));
 }
 const daysSince = d => Math.max(0,Math.floor((Date.now()-new Date(d).getTime())/86400000));
 const fmt = d => d?new Date(d).toLocaleDateString(undefined,{month:'short',year:'numeric'}):'Unknown';
@@ -36,7 +79,7 @@ function summary(repos,user){
  card.append(el('p','eyebrow','YOUR PORTFOLIO ASSESSMENT'),el('h2','','Portfolio assessment'));
  const metrics=el('div','analysis-summary');
  for(const [label,value] of [['Repos reviewed',repos.length],['Active past year',own.length-stale.length],['Need descriptions',missing.length],['Languages',langs.size]]){
-  const box=el('div','metric');append(box,el('span','',label),el('strong','',value));metrics.append(box);
+  const box=el('div','metric');append(box,el('span','',label),animatedNumber(value));metrics.append(box);
  }
  card.append(metrics);
  const p=el('p','explanation','Based on public GitHub repository metadata, not source-code inspection. Archived repositories and forks are excluded from presentation-gap counts. Recent activity means pushed within 365 days.');card.append(p);
@@ -133,7 +176,7 @@ function intelligence(user,repos){
  const forks=own.reduce((n,r)=>n+(r.forks_count||0),0);
  const metrics=el('div','analysis-summary');
  for(const [label,value] of [['Public repositories',user.public_repos],['Followers',user.followers],['Stars on original repos',stars],['Forks of original repos',forks],['Following',user.following],['Public gists',user.public_gists],['GitHub account age (years)',user.created_at?Math.floor(daysSince(user.created_at)/365.25):0],['Forked repositories',repos.filter(r=>r.fork).length],['Archived repositories',repos.filter(r=>r.archived).length],['Original repos reviewed',own.length],['Recent push (90 days)',own.filter(r=>daysSince(r.pushed_at)<=90).length]]){
-  const box=el('div','metric');append(box,el('span','',label),el('strong','',Number(value).toLocaleString()));metrics.append(box);
+  const box=el('div','metric');append(box,el('span','',label),animatedNumber(value));metrics.append(box);
  }
  card.append(metrics);
  card.append(el('h3','','Languages and technology signals'));
@@ -143,9 +186,10 @@ function intelligence(user,repos){
  const bars=el('div','skill-bars');
  for(const [language,count] of ranked.slice(0,12)){
   const row=el('div','skill-row'),head=el('div','skill-label');
-  append(head,el('strong','',language),el('span','',count+' '+(count===1?'repository':'repositories')));
+  const countLabel=el('span','',count+' '+(count===1?'repository':'repositories'));
+  countLabel.dataset.countTarget=String(count);countLabel.dataset.countUnit=count===1?'repository':'repositories';\n  append(head,el('strong','',language),countLabel);
   const track=el('div','skill-track'),fill=el('div','skill-fill');
-  fill.style.width=(100*count/Math.max(1,own.length))+'%';
+  fill.dataset.finalWidth=(100*count/Math.max(1,own.length))+'%';
   track.append(fill);row.append(head,track);bars.append(row);
  }
  if(!ranked.length)bars.append(el('p','explanation','No primary programming languages reported for these repositories.'));
@@ -198,9 +242,11 @@ function render(user,repos){
  section.append(head,list,more);output.append(section);
  filter.addEventListener('input',()=>{visibleCount=3;renderRepos();});sort.addEventListener('change',renderRepos);more.addEventListener('click',()=>{visibleCount+=3;renderRepos();});
  renderRepos();
+ startDashboardMotion();
 }
 async function analyze(username){
  if(!valid(username)){say('Enter a valid GitHub username.',true);return;}
+ if(motionObserver){motionObserver.disconnect();motionObserver=null;}
  if(controller)controller.abort();controller=new AbortController();const id=++requestId;
  button.disabled=true;output.hidden=true;output.replaceChildren();say('Reviewing @'+username+'…');
  try{
