@@ -28,7 +28,7 @@
 .results>.card::before,.results>.card::after{content:none;display:none;animation:none}
 .results>.card>*{position:static;z-index:auto}
 
-/* v4.7 — original Aurora Sweep: card-background-only animation.
+/* v4.9 — corrected top-to-bottom scan direction; no fixed overlay.\n   v4.7 — original Aurora Sweep: card-background-only animation.
    No pseudo-elements, clipping, stacking contexts or layout changes. */
 .results>.card{
  background-image:
@@ -36,7 +36,7 @@
   radial-gradient(ellipse at 80% 10%,rgba(67,132,157,.095),transparent 65%),
   linear-gradient(145deg,#17283e,#142035);
  background-size:100% 340%,100% 100%,100% 100%;
- background-position:center 0%,center,center;
+ background-position:center 100%,center,center;
  background-repeat:no-repeat;
  animation:aurora-card-sweep 5s linear infinite;
 }
@@ -47,8 +47,8 @@
   linear-gradient(145deg,#19352f,#142035 58%);
 }
 @keyframes aurora-card-sweep{
- 0%{background-position:center 0%,center,center}
- 100%{background-position:center 100%,center,center}
+ 0%{background-position:center 100%,center,center}
+ 100%{background-position:center 0%,center,center}
 }
 @media(prefers-reduced-motion:reduce){
  .results>.card{animation:none;background-position:center 50%,center,center}
