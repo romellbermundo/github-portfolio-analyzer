@@ -140,7 +140,7 @@ function followersPanel(user){
  const description=el('p','explanation','Select a follower to analyze their public GitHub portfolio here.');
  const list=el('div','follower-grid');
  panel.append(description,list);
- const load=el('button','more','Show followers');
+ const load=el('button','more','Load more followers');
  load.type='button';load.style.margin='12px 0 0';
  panel.append(load);
  let page=0,loading=false;
@@ -148,7 +148,7 @@ function followersPanel(user){
   if(loading)return;
   loading=true;load.disabled=true;load.textContent='Loading…';
   try{
-   const data=await api('https://api.github.com/users/'+encodeURIComponent(user.login)+'/followers?per_page=30&page='+(page+1),controller?.signal);
+   const data=await api('https://api.github.com/users/'+encodeURIComponent(user.login)+'/followers?per_page=20&page='+(page+1),controller?.signal);
    if(!Array.isArray(data))throw Error('Unexpected response.');
    if(!panel.isConnected)return;
    page++;
@@ -159,7 +159,7 @@ function followersPanel(user){
     list.append(item);
    }
    if(page===1&&!data.length)list.append(el('p','explanation','No public followers.'));
-   load.hidden=data.length<30 || page*30>=user.followers;
+   load.hidden=data.length<20 || page*20>=user.followers;
    load.textContent='Load more followers';
   }catch(e){
    if(e.name!=='AbortError'){description.textContent='Could not load followers: '+e.message;load.textContent='Retry loading followers';}
@@ -167,6 +167,7 @@ function followersPanel(user){
  }
  load.addEventListener('click',next);
  if(user.followers===0){load.hidden=true;description.textContent='No public followers.';}
+ else queueMicrotask(()=>{if(panel.isConnected)next();});
  return panel;
 }
 function intelligence(user,repos){
