@@ -230,7 +230,7 @@ function renderRepos(){
   const card=el('article','repo');const title=el('h3');title.append(link(r.name,r.html_url));card.append(title);
   card.append(el('span','repo-tag',r.archived?'Archived':r.fork?'Fork':!r.description||r.description.trim().length<25?'Needs description':!r.homepage?'No demo link':'Project'));
   card.append(el('p','',r.description||'No description provided.'));
-  const stats=el('div','repo-stats');append(stats,el('span','','★ '+r.stargazers_count),el('span','','⑂ '+r.forks_count),el('span','',r.language||'Language unspecified'),el('span','','Updated '+fmt(r.pushed_at)));card.append(stats);
+  const stats=el('div','repo-stats');append(stats,el('span','','★ '+r.stargazers_count),el('span','','⑂ '+r.forks_count),el('span','repo-language',r.language||'Language unspecified'),el('span','','Updated '+fmt(r.pushed_at)));card.append(stats);
   const notes=signals(r);card.append(el('p','recommendation',notes.length?notes.slice(0,2).join(' '):'No obvious presentation gaps from available metadata.'));
   target.append(card);
  }
