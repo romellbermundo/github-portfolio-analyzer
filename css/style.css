@@ -79,3 +79,20 @@
  .public-details-panel .profile-facts{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:10px}
  .public-details-panel .profile-fact{gap:3px}
 }
+
+/* v5.3 — two metric cards per row even on narrow phones */
+@media(max-width:600px){
+ .intelligence .analysis-summary,.assessment-panel .analysis-summary{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;
+ }
+ .intelligence .metric,.assessment-panel .metric{
+  padding:9px 8px;gap:5px;min-width:0;
+ }
+ .intelligence .metric span,.assessment-panel .metric span{
+  font-size:clamp(.62rem,2.35vw,.74rem);line-height:1.2;
+ }
+ .intelligence .metric strong,.assessment-panel .metric strong{
+  font-size:.95rem;
+ }
+}
