@@ -187,7 +187,8 @@ function intelligence(user,repos){
  for(const [language,count] of ranked.slice(0,12)){
   const row=el('div','skill-row'),head=el('div','skill-label');
   const countLabel=el('span','',count+' '+(count===1?'repository':'repositories'));
-  countLabel.dataset.countTarget=String(count);countLabel.dataset.countUnit=count===1?'repository':'repositories';\n  append(head,el('strong','',language),countLabel);
+  countLabel.dataset.countTarget=String(count);countLabel.dataset.countUnit=count===1?'repository':'repositories';
+  append(head,el('strong','',language),countLabel);
   const track=el('div','skill-track'),fill=el('div','skill-fill');
   fill.dataset.finalWidth=(100*count/Math.max(1,own.length))+'%';
   track.append(fill);row.append(head,track);bars.append(row);
