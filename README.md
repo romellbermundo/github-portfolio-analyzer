@@ -63,6 +63,12 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.5.0 — Reliable visible count-up
+- Initialize numbers and language bars at zero before the section enters view, preventing the final values from appearing before animation begins.
+- Animate with a two-second ease-in-out curve rather than jumping quickly to the final values.
+- Start when approximately 30% of the section is visible; continue respecting reduced-motion settings.
+
+
 ### v5.4.0 — Count-up statistics and language bars
 - Numbers in Developer at a glance and Portfolio assessment count up from zero over two seconds.
 - Language bars grow from zero to their GitHub-derived percentages while repository counts animate in sync.
