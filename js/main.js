@@ -82,7 +82,7 @@ function summary(repos,user){
   const box=el('div','metric');append(box,el('span','',label),animatedNumber(value));metrics.append(box);
  }
  card.append(metrics);
- const p=el('p','explanation','Based on public GitHub repository metadata, not source-code inspection. Archived repositories and forks are excluded from presentation-gap counts. Recent activity means pushed within 365 days.');card.append(p);
+ const p=el('p','explanation','Based on public repo metadata, not source-code review. Forks and archived repos excluded from gap counts; recent means pushed within a year.');card.append(p);
  const insights=el('div','insight-list');
  const ideas=[];
  if(missing.length)ideas.push(missing.length+' original projects need stronger descriptions.');
@@ -195,7 +195,7 @@ function intelligence(user,repos){
   track.append(fill);row.append(head,track);bars.append(row);
  }
  if(!ranked.length)bars.append(el('p','explanation','No primary programming languages reported for these repositories.'));
- card.append(bars,el('p','explanation','Language counts use GitHub’s primary language for each original repository, not all languages in the codebase. Counts are not proficiency ratings. Forks are excluded.'));
+ card.append(bars,el('p','explanation','Languages reflect each original repo’s primary language, not every language used. Counts are not skill ratings; forks excluded.'));
  const popular=[...own].sort((a,b)=>b.stargazers_count-a.stargazers_count).slice(0,6);
  card.append(el('h3','','Most starred original projects'));
  const list=el('div','popular-list');
@@ -222,7 +222,7 @@ function renderRepos(){
  target.replaceChildren();
  for(const r of filtered.slice(0,visibleCount)){
   const card=el('article','repo');const title=el('h3');title.append(link(r.name,r.html_url));card.append(title);
-  card.append(el('span','repo-tag',r.archived?'Archived':r.fork?'Fork':signals(r).length?'Review presentation':'Metadata looks complete'));
+  card.append(el('span','repo-tag',r.archived?'Archived':r.fork?'Fork':!r.description||r.description.trim().length<25?'Needs description':!r.homepage?'No demo link':'Project'));
   card.append(el('p','',r.description||'No description provided.'));
   const stats=el('div','repo-stats');append(stats,el('span','','★ '+r.stargazers_count),el('span','','⑂ '+r.forks_count),el('span','',r.language||'Language unspecified'),el('span','','Updated '+fmt(r.pushed_at)));card.append(stats);
   const notes=signals(r);card.append(el('p','recommendation',notes.length?notes.slice(0,2).join(' '):'No obvious presentation gaps from available metadata.'));
@@ -257,10 +257,21 @@ async function analyze(username){
   const repos=await api('https://api.github.com/users/'+encodeURIComponent(user.login)+'/repos?per_page=100&type=public&sort=updated',controller.signal);
   try{user.social_accounts=await api('https://api.github.com/users/'+encodeURIComponent(user.login)+'/social_accounts',controller.signal);}catch(e){if(e.name==='AbortError')throw e;user.social_accounts=[];}
   if(id!==requestId)return;
-  render(user,repos);say('Assessment complete: reviewed '+repos.length+' public repositories.');
+  render(user,repos);say('Assessment complete · '+repos.length+' public repos reviewed');
   history.replaceState(null,'','#'+encodeURIComponent(user.login));
  }catch(err){if(err.name==='AbortError'||id!==requestId)return;say(err.message||'Network error. Please retry.',true);}
  finally{if(id===requestId)button.disabled=false;}
+}
+const shareDialog=$('shareDialog'),shareButton=$('openShare'),shareQr=$('shareQr');
+if(shareDialog&&shareButton&&shareQr){
+ shareButton.addEventListener('click',()=>{
+  if(!shareQr.getAttribute('src')){
+   const url='https://romellbermundo.github.io/jquery-github-finder/';
+   shareQr.src='https://api.qrserver.com/v1/create-qr-code/?size=480x480&margin=24&data='+encodeURIComponent(url);
+  }
+  shareDialog.showModal();
+ });
+ shareDialog.addEventListener('click',event=>{if(event.target===shareDialog)shareDialog.close();});
 }
 form.addEventListener('submit',e=>{e.preventDefault();analyze(input.value.trim());});
 let initial='';try{initial=decodeURIComponent(location.hash.slice(1)).trim();}catch(_){initial='';}if(valid(initial)){input.value=initial;analyze(initial);}
