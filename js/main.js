@@ -53,7 +53,7 @@ function startDashboardMotion(){
    motionObserver?.unobserve(entry.target);
    run(entry.target);
   });
- },{threshold:0.3});
+ },{threshold:0.05});
  groups.forEach(group=>motionObserver.observe(group));
 }
 const daysSince = d => Math.max(0,Math.floor((Date.now()-new Date(d).getTime())/86400000));
@@ -150,6 +150,7 @@ function followersPanel(user){
   try{
    const data=await api('https://api.github.com/users/'+encodeURIComponent(user.login)+'/followers?per_page=30&page='+(page+1),controller?.signal);
    if(!Array.isArray(data))throw Error('Unexpected response.');
+   if(!panel.isConnected)return;
    page++;
    for(const follower of data){
     const item=el('a','follower-item');item.href='#'+encodeURIComponent(follower.login);item.setAttribute('aria-label','Analyze @'+follower.login+' portfolio');item.addEventListener('click',event=>{event.preventDefault();input.value=follower.login;analyze(follower.login);window.scrollTo({top:0,behavior:'smooth'});});
@@ -165,7 +166,7 @@ function followersPanel(user){
   }finally{loading=false;load.disabled=false;}
  }
  load.addEventListener('click',next);
- if(user.followers>0)next();else{load.hidden=true;description.textContent='No public followers.';}
+ if(user.followers===0){load.hidden=true;description.textContent='No public followers.';}
  return panel;
 }
 function intelligence(user,repos){
