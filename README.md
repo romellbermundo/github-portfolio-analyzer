@@ -63,6 +63,10 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.7.9 — Distinct language label color
+- Changed repository review language labels (JavaScript, HTML, CSS, etc.) from light yellow to icy blue so yellow remains reserved for presentation improvement suggestions.
+
+
 ### v5.7.8 — Repository review feedback colors
 - Added a thumbs-up before “No obvious presentation gaps” in repository review cards and styled the full positive message light green.
 - Styled repository review improvement comments light yellow, consistent with the existing language-label accent.
