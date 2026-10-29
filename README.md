@@ -63,6 +63,11 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.8.1 — Yellow square markers for improvement notes
+- Added a yellow square before repository review improvement comments, matching the green checkmark placement on clear reviews.
+- Kept the entire improvement message light yellow, the entire clear message light green, and language labels icy blue.
+
+
 ### v5.8.0 — Green checkmark for clear repository reviews
 - Replaced the thumbs-up icon with a checkmark before “No obvious presentation gaps.”
 - Preserved light green success text, light yellow improvement comments, and light blue language labels.
