@@ -182,7 +182,15 @@ function intelligence(user,repos){
  }
  const latestPush=own.map(r=>r.pushed_at).filter(Boolean).sort((a,b)=>new Date(b)-new Date(a))[0];
  const lastUpdate=el('div','metric');
- append(lastUpdate,el('span','','Last repo update'),el('strong','',latestPush?new Date(latestPush).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}):'No updates'));
+ const lastUpdateValue=el('strong','',latestPush?new Date(latestPush).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}):'No updates');
+ if(latestPush){
+  const ageDays=daysSince(latestPush);
+  // Oldest threshold takes precedence: 3 years > 1 year > 1 month.
+  if(ageDays>=365.25*3)lastUpdateValue.classList.add('repo-update-three-years');
+  else if(ageDays>=365.25)lastUpdateValue.classList.add('repo-update-one-year');
+  else if(ageDays>=30)lastUpdateValue.classList.add('repo-update-one-month');
+ }
+ append(lastUpdate,el('span','','Last repo update'),lastUpdateValue);
  metrics.append(lastUpdate);
  card.append(metrics);
  card.append(el('h3','','Languages and technology signals'));
