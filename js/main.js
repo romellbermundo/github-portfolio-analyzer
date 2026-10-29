@@ -246,7 +246,7 @@ function renderRepos(){
   card.append(el('span','repo-tag',r.archived?'Archived':r.fork?'Fork':!r.description||r.description.trim().length<25?'Needs description':!r.homepage?'No demo link':'Project'));
   card.append(el('p','',r.description||'No description provided.'));
   const stats=el('div','repo-stats');append(stats,el('span','','★ '+r.stargazers_count),el('span','','⑂ '+r.forks_count),el('span','repo-language',r.language||'Language unspecified'),el('span','','Updated '+fmt(r.pushed_at)));card.append(stats);
-  const notes=signals(r);card.append(el('p',notes.length?'recommendation recommendation-attention':'recommendation recommendation-clear',notes.length?notes.slice(0,2).join(' '):'✓ No obvious presentation gaps from available metadata.'));
+  const notes=signals(r);card.append(el('p',notes.length?'recommendation recommendation-attention':'recommendation recommendation-clear',notes.length?'■ '+notes.slice(0,2).join(' '):'✓ No obvious presentation gaps from available metadata.'));
   target.append(card);
  }
  if(!filtered.length)target.append(el('p','empty','No repositories match this filter.'));
