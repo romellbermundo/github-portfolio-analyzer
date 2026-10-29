@@ -122,3 +122,8 @@
 
 /* Soft yellow repository language labels */
 .repo-stats .repo-language{color:#f5e6a5}
+
+/* Last repository update age indicators */
+.metric strong.repo-update-one-month{color:#f7e7a4}
+.metric strong.repo-update-one-year{color:#c5ccd6}
+.metric strong.repo-update-three-years{color:#f4a6ae}
