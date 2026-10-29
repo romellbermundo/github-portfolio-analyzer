@@ -121,7 +121,7 @@
 @media(max-width:390px){.search-hint{font-size:.56rem}}
 
 /* Soft yellow repository language labels */
-.repo-stats .repo-language{color:#f5e6a5}
+.repo-stats .repo-language{color:#9bcfe9}
 
 /* Activity colors fade from fresh mint through gold and stone to dormant slate. */
 .metric strong.repo-update-recent{color:#a7e8d2}
