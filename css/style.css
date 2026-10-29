@@ -123,7 +123,22 @@
 /* Soft yellow repository language labels */
 .repo-stats .repo-language{color:#f5e6a5}
 
-/* Last repository update age indicators */
-.metric strong.repo-update-one-month{color:#f7e7a4}
-.metric strong.repo-update-one-year{color:#c5ccd6}
-.metric strong.repo-update-three-years{color:#f4a6ae}
+/* Activity colors fade from fresh mint through gold and stone to dormant slate. */
+.metric strong.repo-update-recent{color:#a7e8d2}
+.metric strong.repo-update-one-month{color:#e9c978}
+.metric strong.repo-update-one-year{color:#c5b99d}
+.metric strong.repo-update-three-years{color:#929caa}
+.repo-update-trigger{cursor:pointer}
+.repo-update-trigger:focus-visible{outline:2px solid #a7e8d2;outline-offset:3px}
+.activity-legend-dialog{border:1px solid #405568;border-radius:18px;padding:22px;background:#101d2d;color:#e9f6ef;box-shadow:0 24px 75px #000a;max-width:min(360px,calc(100vw - 36px));width:100%}
+.activity-legend-dialog::backdrop{background:rgba(4,12,22,.76);backdrop-filter:blur(4px)}
+.activity-legend-dialog h2{font-size:1rem;margin:0 0 16px}
+.activity-legend-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid #344357;font-size:.84rem}
+.activity-legend-row:last-of-type{border-bottom:0}
+.activity-legend-row span{color:#aab8c9}
+.activity-legend-row strong{white-space:nowrap}
+.activity-legend-dialog p{font-size:.72rem;color:#aab8c9;margin:16px 0 0;text-align:center}
+.activity-legend-dialog .recent{color:#a7e8d2}
+.activity-legend-dialog .month{color:#e9c978}
+.activity-legend-dialog .year{color:#c5b99d}
+.activity-legend-dialog .three-years{color:#929caa}
