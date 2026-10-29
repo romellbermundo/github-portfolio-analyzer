@@ -142,3 +142,7 @@
 .activity-legend-dialog .month{color:#e9c978}
 .activity-legend-dialog .year{color:#c5b99d}
 .activity-legend-dialog .three-years{color:#929caa}
+
+/* Repository review feedback: mint for clear, soft yellow for improvement notes. */
+.repo .recommendation.recommendation-clear{color:#a7e8d2}
+.repo .recommendation.recommendation-attention{color:#f5e6a5}
