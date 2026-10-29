@@ -63,6 +63,12 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.7.8 — Repository review feedback colors
+- Added a thumbs-up before “No obvious presentation gaps” in repository review cards and styled the full positive message light green.
+- Styled repository review improvement comments light yellow, consistent with the existing language-label accent.
+- Refreshed CSS and JavaScript cache keys.
+
+
 ### v5.7.7 — Following directory and compact people lists
 - Added a Following section with profile avatars and in-app portfolio navigation.
 - Followers and Following now display 10 people initially, with Load more controls fetching 10 additional people per click.
