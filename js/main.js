@@ -132,15 +132,16 @@ function publicProfileDetails(user){
  card.append(facts);
  return card;
 }
-function followersPanel(user){
+function peoplePanel(user,kind){
+ const title=kind==='following'?'Following':'Followers';
  const panel=el('section','card followers-panel');
  const heading=el('div','followers-heading');
- heading.append(el('h2','','Followers'),link('View all on GitHub ↗',user.html_url+'?tab=followers'));
+ heading.append(el('h2','',title),link('View all on GitHub ↗',user.html_url+'?tab='+kind));
  panel.append(heading);
- const description=el('p','explanation','Select a follower to analyze their public GitHub portfolio here.');
+ const description=el('p','explanation','Select a person to analyze their public GitHub portfolio here.');
  const list=el('div','follower-grid');
  panel.append(description,list);
- const load=el('button','more','Load more followers');
+ const load=el('button','more','Load more '+kind);
  load.type='button';load.style.margin='12px 0 0';
  panel.append(load);
  let page=0,loading=false;
@@ -148,7 +149,7 @@ function followersPanel(user){
   if(loading)return;
   loading=true;load.disabled=true;load.textContent='Loading…';
   try{
-   const data=await api('https://api.github.com/users/'+encodeURIComponent(user.login)+'/followers?per_page=20&page='+(page+1),controller?.signal);
+   const data=await api('https://api.github.com/users/'+encodeURIComponent(user.login)+'/'+kind+'?per_page=10&page='+(page+1),controller?.signal);
    if(!Array.isArray(data))throw Error('Unexpected response.');
    if(!panel.isConnected)return;
    page++;
@@ -158,15 +159,15 @@ function followersPanel(user){
     item.append(avatar,el('span','', '@'+follower.login));
     list.append(item);
    }
-   if(page===1&&!data.length)list.append(el('p','explanation','No public followers.'));
-   load.hidden=data.length<20 || page*20>=user.followers;
-   load.textContent='Load more followers';
+   if(page===1&&!data.length)list.append(el('p','explanation','No public '+kind+'.'));
+   load.hidden=data.length<10 || page*10>=user[kind];
+   load.textContent='Load more '+kind;
   }catch(e){
-   if(e.name!=='AbortError'){description.textContent='Could not load followers: '+e.message;load.textContent='Retry loading followers';}
+   if(e.name!=='AbortError'){description.textContent='Could not load '+kind+': '+e.message;load.textContent='Retry loading '+kind';}
   }finally{loading=false;load.disabled=false;}
  }
  load.addEventListener('click',next);
- if(user.followers===0){load.hidden=true;description.textContent='No public followers.';}
+ if(user[kind]===0){load.hidden=true;description.textContent='No public '+kind+'.';}
  else queueMicrotask(()=>{if(panel.isConnected)next();});
  return panel;
 }
@@ -253,7 +254,7 @@ function renderRepos(){
 }
 function render(user,repos){
  output.replaceChildren();output.hidden=false;repositories=repos;visibleCount=3;
- output.append(profile(user),intelligence(user,repos),followersPanel(user),publicProfileDetails(user),summary(repos,user));
+ output.append(profile(user),intelligence(user,repos),peoplePanel(user,'followers'),peoplePanel(user,'following'),publicProfileDetails(user),summary(repos,user));
  const section=el('section','card repository-panel');const head=el('div','section-heading');head.append(el('h2','','Repository review'));
  const controls=el('div','repo-controls');
  const filter=el('input');filter.id='repoFilter';filter.type='search';filter.placeholder='Filter repositories';filter.setAttribute('aria-label','Filter repositories');
