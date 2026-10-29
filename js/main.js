@@ -181,16 +181,22 @@ function intelligence(user,repos){
   const box=el('div','metric');append(box,el('span','',label),animatedNumber(value));metrics.append(box);
  }
  const latestPush=own.map(r=>r.pushed_at).filter(Boolean).sort((a,b)=>new Date(b)-new Date(a))[0];
- const lastUpdate=el('div','metric');
+ const lastUpdate=el('div','metric repo-update-trigger');
  const lastUpdateValue=el('strong','',latestPush?new Date(latestPush).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}):'No updates');
  if(latestPush){
   const ageDays=daysSince(latestPush);
-  // Oldest threshold takes precedence: 3 years > 1 year > 1 month.
   if(ageDays>=365.25*3)lastUpdateValue.classList.add('repo-update-three-years');
   else if(ageDays>=365.25)lastUpdateValue.classList.add('repo-update-one-year');
   else if(ageDays>=30)lastUpdateValue.classList.add('repo-update-one-month');
+  else lastUpdateValue.classList.add('repo-update-recent');
  }
  append(lastUpdate,el('span','','Last repo update'),lastUpdateValue);
+ lastUpdate.setAttribute('role','button');
+ lastUpdate.setAttribute('tabindex','0');
+ lastUpdate.setAttribute('aria-label','Last repo update. Show activity color legend');
+ const openUpdateLegend=()=>{const dialog=$('updateLegendDialog');if(dialog&&!dialog.open)dialog.showModal();};
+ lastUpdate.addEventListener('click',openUpdateLegend);
+ lastUpdate.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();openUpdateLegend();}});
  metrics.append(lastUpdate);
  card.append(metrics);
  card.append(el('h3','','Languages and technology signals'));
