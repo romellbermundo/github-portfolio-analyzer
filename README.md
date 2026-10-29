@@ -63,6 +63,12 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.7.7 — Following directory and compact people lists
+- Added a Following section with profile avatars and in-app portfolio navigation.
+- Followers and Following now display 10 people initially, with Load more controls fetching 10 additional people per click.
+- Updated JavaScript asset cache key and dashboard version.
+
+
 ### v5.7.6 — Repository activity color legend
 - Updated Last repo update colors to soft mint (under 30 days), muted gold (30 days to under a year), warm stone (1 to under 3 years), and slate grey (3+ years).
 - Last repo update metric is now clickable and keyboard accessible; tapping it opens a four-color legend that closes when tapped anywhere or with Escape.
