@@ -63,6 +63,12 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.7.5 — Last repository update age colors
+- Last repo update text now appears light yellow when the most recent push was at least 30 days ago, light grey at least one year ago, and light red at least three years ago.
+- The oldest applicable threshold wins. More recent dates keep the original text color; no-update text remains unchanged.
+- Updated static asset cache keys to v575.
+
+
 ### v5.7.1 — Repository rename link repair
 - Updated the live site, sample analysis, README, and share QR destination to the renamed github-portfolio-analyzer GitHub Pages address.
 
