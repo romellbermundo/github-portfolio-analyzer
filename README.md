@@ -63,6 +63,11 @@ Clone this repository and serve its root directory with any static web server, o
 
 ## Version history
 
+### v5.8.0 — Green checkmark for clear repository reviews
+- Replaced the thumbs-up icon with a checkmark before “No obvious presentation gaps.”
+- Preserved light green success text, light yellow improvement comments, and light blue language labels.
+
+
 ### v5.7.9 — Distinct language label color
 - Changed repository review language labels (JavaScript, HTML, CSS, etc.) from light yellow to icy blue so yellow remains reserved for presentation improvement suggestions.
 
