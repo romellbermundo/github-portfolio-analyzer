@@ -163,7 +163,7 @@ function peoplePanel(user,kind){
    load.hidden=data.length<10 || page*10>=user[kind];
    load.textContent='Load more '+kind;
   }catch(e){
-   if(e.name!=='AbortError'){description.textContent='Could not load '+kind+': '+e.message;load.textContent='Retry loading '+kind';}
+   if(e.name!=='AbortError'){description.textContent='Could not load '+kind+': '+e.message;load.textContent='Retry loading '+kind;}
   }finally{loading=false;load.disabled=false;}
  }
  load.addEventListener('click',next);
